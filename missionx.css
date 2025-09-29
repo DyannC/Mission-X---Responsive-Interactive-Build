@@ -1,4 +1,4 @@
-/* Mission X add-on styles (keeps your theme) */
+/* Mission X add-on styles (keeps the theme) */
 :root {
   --focus: #ffd166;
 }
@@ -148,65 +148,81 @@
   }
 }
 
-/* --- Fix Pack additions --- */
-.thumb-actions {
-  margin-top: 8px;
-  display: flex;
-  gap: 12px;
-  justify-content: center;
+/* ========================= Photo Picker Styles  =========================
+   - .vh-file visually hides the <input type="file"> while keeping it programmatically clickable.
+     iOS Safari can block clicks on inputs with the HTML 'hidden' attribute, so we use CSS instead.
+   - .pick-grid / .pick-card style the Camera/Gallery tiles as large, tappable cards.
+   - .preview is hidden until an image exists.
+   ========================================================================================= */
+.vh-file {
+  /* Move off-screen but keep in the DOM so JS can call .click() reliably on iOS/Android */
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
 }
-.thumb-actions .link {
-  background: none;
-  border: none;
-  color: #1b3a2a;
-  text-decoration: underline;
-  cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 8px;
-}
-.thumb-actions .link:focus-visible {
-  outline: 3px solid var(--focus, #ffd166);
-  outline-offset: 2px;
-}
-.error-text {
-  color: #7a1212;
-  font-weight: 600;
-  margin-top: 8px;
-}
+
 .pick-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(120px, 1fr));
-  gap: 16px;
-  margin: 12px 0 8px;
-}
-.pick-card {
-  background: var(--card, #f5f4e9);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 16px;
-  padding: 16px;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, outline 0.15s ease;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-}
-.pick-card:hover,
-.pick-card:focus-within {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-  outline: 2px solid rgba(23, 85, 46, 0.35);
-  outline-offset: 2px;
-}
-.pick-card img {
-  width: 48px;
-  height: 48px;
-  display: block;
-  margin: 0 auto 8px;
-}
-.pick-card .label {
-  font-weight: 700;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 18px;
+  margin: 8px 0 6px;
 }
 @media (max-width: 420px) {
   .pick-grid {
     grid-template-columns: 1fr;
   }
 }
+
+.pick-card {
+  /* Big, tappable tile */
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--card, #f5f4e9);
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.08));
+  border-radius: 18px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    border-color 0.12s ease;
+}
+.pick-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.16);
+  border-color: rgba(23, 85, 46, 0.25);
+}
+.pick-card:active {
+  transform: translateY(0);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+.pick-card:focus-visible {
+  outline: 3px solid var(--focus, #ffd166);
+  outline-offset: 2px;
+}
+
+.pick-card img {
+  width: 72px;
+  height: 72px;
+  display: block;
+  margin: 0 auto 8px;
+  pointer-events: none;
+}
+.pick-card .label {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.preview:empty {
+  display: none;
+} /* Hide until an image exists */
+.preview img {
+  max-width: 240px;
+  max-height: 180px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
+}
+

@@ -6,6 +6,7 @@
   <title>FixIt — Location</title>
 
   <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="missionx.css"/>
 
   <!-- Leaflet (no API key) -->
   <link
@@ -40,6 +41,8 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <main id="main">
   <div class="stage">
     <div class="screen">
       <header><h1>Where’s the <br>issue?</h1></header>
@@ -55,11 +58,16 @@
             Use my location
           </button>
         </div>
+        <div class="card mt12" style="padding:12px">
+          <label for="coords">Coordinates</label>
+          <input id="coords" type="text" readonly placeholder="-36.8485, 174.7633">
+          <p class="help muted">Updates when you move the pin, click the map, or press “Use my location”.</p>
+        </div>
       </main>
 
       <footer class="rail">
         <a class="btn btn-ghost" href="details.html">Back</a>
-        <a class="btn grow" href="contact-info-page.html">Next</a>
+        <a class="btn grow" href="contact.html">Next</a>
       </footer>
 
       <!-- Locating overlay -->
@@ -89,6 +97,15 @@
     let canceled = false;
     let map, marker;
 
+    const coordsInput = document.getElementById("coords");
+    function updateCoords(latlng){
+      if (!coordsInput) return;
+      const obj = Array.isArray(latlng) ? {lat:latlng[0], lng:latlng[1]} : latlng;
+      if (!obj) return;
+      coordsInput.value = `${obj.lat.toFixed(5)}, ${obj.lng.toFixed(5)}`;
+    }
+
+
     function initMap() {
       map = L.map('map', { zoomControl: true }).setView(DEFAULT, 13);
 
@@ -97,7 +114,18 @@
         attribution: '&copy; OpenStreetMap contributors'
       }).addTo(map);
 
-      marker = L.marker(DEFAULT).addTo(map);
+      marker = L.marker(DEFAULT, {draggable:true}).addTo(map);
+      // Show initial coords
+      updateCoords(marker.getLatLng());
+      // Click to move marker
+      map.on("click", (e) => {
+        marker.setLatLng(e.latlng);
+        updateCoords(e.latlng);
+      });
+      // Drag end updates coords
+      marker.on("moveend", (e) => {
+        updateCoords(e.target.getLatLng());
+      });
     }
 
     // Overlay helpers
@@ -123,6 +151,7 @@
           if (canceled) return; // user cancelled; ignore result
           const latlng = [latitude, longitude];
           marker.setLatLng(latlng);
+          updateCoords({lat:latitude, lng:longitude});
           map.flyTo(latlng, 16, { duration: 0.7 });
           hideOverlay();
         },
@@ -151,5 +180,6 @@
     });
   })();
   </script>
+  <script src="app-m4.js" defer></script>
 </body>
 </html>
