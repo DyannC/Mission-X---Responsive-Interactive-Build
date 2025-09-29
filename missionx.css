@@ -1,0 +1,212 @@
+/* Mission X add-on styles (keeps your theme) */
+:root {
+  --focus: #ffd166;
+}
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  background: #fff;
+  color: #000;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  z-index: 1000;
+}
+:where(
+    a,
+    button,
+    [role="button"],
+    input,
+    textarea,
+    select,
+    [tabindex]
+  ):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.count {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
+  margin-top: 0.25rem;
+}
+.dropzone {
+  border: 2px dashed #3a5872;
+  border-radius: 1rem;
+  padding: 1rem;
+  text-align: center;
+  background: #f5f4e9;
+  color: #345;
+}
+.dropzone.drag {
+  border-color: #17552e;
+  filter: brightness(1.04);
+}
+.preview img {
+  max-width: 160px;
+  max-height: 120px;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* === Issue card hover/focus feedback === */
+.grid .tile {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, outline 0.15s ease;
+  will-change: transform;
+}
+.grid .tile:hover,
+.grid .tile:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  outline: 2px solid rgba(23, 85, 46, 0.35);
+  outline-offset: 2px;
+}
+
+/* === Error banner === */
+.error-banner {
+  background: #fff5f5;
+  color: #7a1212;
+  border: 1px solid #ffb3b3;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.75rem;
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+.error-banner[hidden] {
+  display: none;
+}
+
+/* === Reusable overlay/modal (matches Mission 4 style) === */
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.18);
+  z-index: 1000;
+}
+.overlay[hidden] {
+  display: none;
+}
+.modal {
+  width: min(560px, 92vw);
+  background: var(--card, #f5f4e9);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* === Responsive helpers (non-destructive) === */
+@media (max-width: 1024px) {
+  .stage {
+    padding: 16px;
+  }
+  .screen {
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 600px) {
+  .screen {
+    max-width: 420px;
+    padding: 16px;
+  }
+  h1 {
+    font-size: 20px;
+  }
+}
+@media (max-width: 400px) {
+  .screen {
+    max-width: 360px;
+    padding: 12px;
+  }
+  .btn.grow {
+    min-height: 44px;
+  }
+}
+
+/* --- Fix Pack additions --- */
+.thumb-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.thumb-actions .link {
+  background: none;
+  border: none;
+  color: #1b3a2a;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+.thumb-actions .link:focus-visible {
+  outline: 3px solid var(--focus, #ffd166);
+  outline-offset: 2px;
+}
+.error-text {
+  color: #7a1212;
+  font-weight: 600;
+  margin-top: 8px;
+}
+.pick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 16px;
+  margin: 12px 0 8px;
+}
+.pick-card {
+  background: var(--card, #f5f4e9);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, outline 0.15s ease;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+.pick-card:hover,
+.pick-card:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  outline: 2px solid rgba(23, 85, 46, 0.35);
+  outline-offset: 2px;
+}
+.pick-card img {
+  width: 48px;
+  height: 48px;
+  display: block;
+  margin: 0 auto 8px;
+}
+.pick-card .label {
+  font-weight: 700;
+}
+@media (max-width: 420px) {
+  .pick-grid {
+    grid-template-columns: 1fr;
+  }
+}
