@@ -1,0 +1,55 @@
+<html lang="en">
+
+<head>
+    <!-- CONNECTING THE CSS FILE  -->
+    <link rel="stylesheet" href="fixit-app.css" />
+
+    <!-- Google Fonts for Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+
+    <!-- CONNECTING THE JAVASCRIPT FILE -->
+    <script src="login.js" defer></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixIt - My Reports</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <button id="signout-btn" type="button">Sign Out</button>
+        </div>
+        <img src="images/Fixit logo.png" class="logo">
+        <h1>My Reports</h1>
+
+
+        <div class="report-card">
+            <img src="images/graffiti.png" alt="Graffiti" class="icon">
+            <span class="label">Graffiti</span>
+            <span class="status received">☑️ Received</span>
+        </div>
+
+
+        <div class="report-card">
+            <img src="images/streetlight 1.png" alt="Streetlight" class="icon">
+            <span class="label">Streetlight</span>
+            <span class="status in-progress">⌛️ In progress</span>
+        </div>
+
+
+        <div class="report-card">
+            <img src="images/hole 1.png" alt="Pothole" class="icon">
+            <span class="label">Pothole</span>
+            <span class="status resolved">✅ Resolved</span>
+        </div>
+
+
+        <button class="btn btn-darkgreen" type="button" id="submit">Submit new report</button>
+    </div>
+</body>
+
+</html>

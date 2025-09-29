@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- CONNECTING THE CSS FILE  -->
+    <link rel="stylesheet" href="fixit-app.css" />
+
+    <!-- Google Fonts for Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+
+    <!-- CONNECTING THE JAVASCRIPT FILE -->
+    <script src="signup.js" defer></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up form</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Create an account</h1>
+        <form class="signup-form" novalidate>
+
+            <input type="text" placeholder="First name" required>
+            <div class="error-message">Please enter your first name here</div>
+
+            <input type="text" placeholder="Last name" required>
+            <div class="error-message">Please enter your last name here</div>
+
+            <input type="text" placeholder="Email or Phone" required>
+            <div class="error-message">Please enter a valid email address or phone</div>
+
+            <input type="text" placeholder="Password" required>
+            <div class="error-message">Password must be minimum 8 characters</div>
+
+            <input type="text" placeholder="Confirm password" required>
+            <div class="error-message">Re-enter your password here</div>
+
+            <button class="btn btn-darkgreen" type="signup">Sign Up</button>
+            <button class="login-btn" id="backToLoginBtn" type="button">Back to Login</button>
+        </form>
+    </div>
+
+
+</body>
+
+</html>

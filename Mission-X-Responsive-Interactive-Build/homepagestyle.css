@@ -1,0 +1,85 @@
+/* =========================================================
+   HOME PAGE ONLY
+   Add class="home" to <body> on the home page.
+   ========================================================= */
+
+/* Remove the shared forest BG for the Home page (we draw a custom hero) */
+.home .stage::before { display: none; }
+
+/* Two-row layout: hero grows, CTA sits at bottom */
+.home .stage {
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+/* Hero stack */
+.home .hero{
+  position: relative;
+  isolation: isolate;
+  padding: 18px 22px 0;
+  min-height: 560px;
+}
+
+/* Logo (image via CSS var) */
+.home .logo{
+  width: min(76%, 190px);
+  aspect-ratio: 570 / 180;
+  margin: 8px auto 12px;
+  background: var(--logo-url) center / contain no-repeat;
+  filter: drop-shadow(0 6px 18px rgba(18,68,41,.15));
+}
+
+/* Forest fills hero; fade top so no seam under logo */
+.home .forest{
+  --cta-space: 98px;                 /* space reserved for CTA/people */
+  position: absolute;
+  inset: 0 0 var(--cta-space) 0;
+  background: var(--forest-url) bottom center / cover no-repeat;
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 68%, rgba(0,0,0,0) 100%);
+          mask-image: linear-gradient(to top, rgba(0,0,0,1) 68%, rgba(0,0,0,0) 100%);
+}
+@supports not ((mask-image: linear-gradient(#000,#000)) or (-webkit-mask-image: linear-gradient(#000,#000))){
+  .home .forest{
+    background:
+      linear-gradient(to top, rgba(237,253,217,0) 68%, var(--screen) 100%),
+      var(--forest-url) bottom center / cover no-repeat;
+  }
+}
+
+/* People centered & aligned just above CTA */
+.home .people{
+  position: absolute;
+  bottom: 98px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 86%;
+  max-width: 330px;
+  aspect-ratio: 1100 / 820;
+  background: var(--people-url) bottom center / contain no-repeat;
+  z-index: 1;
+  filter:
+    drop-shadow(0 14px 24px rgba(18,68,41,.12))
+    drop-shadow(0 3px 10px rgba(18,68,41,.10));
+}
+
+/* Tighter viewports: nudge up slightly */
+@media (max-height: 760px){
+  .home .people{ bottom: 88px; width: 88%; }
+  .home .forest{ inset: 0 0 88px 0; }
+}
+
+/* CTA row */
+.home .cta{
+  position: relative;
+  padding: 16px 20px 20px;
+  background: radial-gradient(120% 70% at 50% 0%, rgba(0,0,0,.06), transparent 60%);
+}
+.home .cta .btn{
+  width: 100%;
+  height: 64px;
+  border-radius: 32px;
+  box-shadow:
+    0 14px 28px rgba(21, 79, 52, .25),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
