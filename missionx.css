@@ -1,79 +1,159 @@
 /* Mission X add-on styles (keeps your theme) */
-:root{ --focus:#ffd166; }
-.skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
-.skip-link:focus{left:1rem;top:1rem;width:auto;height:auto;background:#fff;color:#000;padding:.5rem .75rem;border-radius:.5rem;z-index:1000}
-:where(a,button,[role="button"],input,textarea,select,[tabindex]):focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:.5rem}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.count{font-variant-numeric:tabular-nums;opacity:.8;margin-top:.25rem}
-.dropzone{border:2px dashed #3a5872;border-radius:1rem;padding:1rem;text-align:center;background:#F5F4E9;color:#345}
-.dropzone.drag{border-color:#17552E;filter:brightness(1.04)}
-.preview img{max-width:160px;max-height:120px;border-radius:.5rem;margin-top:.5rem;border:1px solid rgba(0,0,0,.1)}
-
+:root {
+  --focus: #ffd166;
+}
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  background: #fff;
+  color: #000;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  z-index: 1000;
+}
+:where(
+    a,
+    button,
+    [role="button"],
+    input,
+    textarea,
+    select,
+    [tabindex]
+  ):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.count {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
+  margin-top: 0.25rem;
+}
+.dropzone {
+  border: 2px dashed #3a5872;
+  border-radius: 1rem;
+  padding: 1rem;
+  text-align: center;
+  background: #f5f4e9;
+  color: #345;
+}
+.dropzone.drag {
+  border-color: #17552e;
+  filter: brightness(1.04);
+}
+.preview img {
+  max-width: 160px;
+  max-height: 120px;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
 
 /* === Issue card hover/focus feedback === */
-.grid .tile{
-  transition: transform .15s ease, box-shadow .15s ease, outline .15s ease;
+.grid .tile {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, outline 0.15s ease;
   will-change: transform;
 }
 .grid .tile:hover,
-.grid .tile:focus-within{
+.grid .tile:focus-within {
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(0,0,0,.18);
-  outline: 2px solid rgba(23,85,46,.35);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  outline: 2px solid rgba(23, 85, 46, 0.35);
   outline-offset: 2px;
 }
 
-
-
 /* === Error banner === */
-.error-banner{
-  background:#ffd9d9;
-  color:#5e0b0b;
-  border:1px solid #f4b4b4;
-  padding:10px 12px;
-  border-radius:12px;
-  margin:10px 0 14px;
-  font-weight:700;
+.error-banner {
+  background: #ffd9d9;
+  color: #5e0b0b;
+  border: 1px solid #f4b4b4;
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin: 10px 0 14px;
+  font-weight: 700;
 }
-.is-disabled{ opacity:.7; cursor:not-allowed; }
+.is-disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
 .grid .tile.selected,
 .issue-card.selected,
-[data-issue].selected{
-  outline:3px solid #2c6f4f; box-shadow:0 8px 24px rgba(0,0,0,.15);
+[data-issue].selected {
+  outline: 3px solid #2c6f4f;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
-
 
 /* === Reusable overlay/modal (matches Mission 4 style) === */
-.overlay{
-  position: fixed; inset: 0;
-  display: grid; place-items: center;
-  background: rgba(0,0,0,.18);
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.18);
   z-index: 1000;
 }
-.overlay[hidden]{ display:none; }
-.modal{
+.overlay[hidden] {
+  display: none;
+}
+.modal {
   width: min(560px, 92vw);
-  background: var(--card, #F5F4E9);
-  border: 1px solid rgba(0,0,0,.06);
+  background: var(--card, #f5f4e9);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 16px;
   padding: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
 /* === Responsive helpers (non-destructive) === */
-@media (max-width: 1024px){
-  .stage{ padding: 16px; }
-  .screen{ width: 100%; max-width: 540px; margin: 0 auto; }
+@media (max-width: 1024px) {
+  .stage {
+    padding: 16px;
+  }
+  .screen {
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+  }
 }
-@media (max-width: 600px){
-  .screen{ max-width: 420px; padding: 16px; }
-  h1{ font-size: 20px; }
+@media (max-width: 600px) {
+  .screen {
+    max-width: 420px;
+    padding: 16px;
+  }
+  h1 {
+    font-size: 20px;
+  }
 }
-@media (max-width: 400px){
-  .screen{ max-width: 360px; padding: 12px; }
-  .btn.grow{ min-height: 44px; }
+@media (max-width: 400px) {
+  .screen {
+    max-width: 360px;
+    padding: 12px;
+  }
+  .btn.grow {
+    min-height: 44px;
+  }
 }
-
 
 /* ========================= FixIt: Photo Picker Styles (commented) =========================
    - .vh-file visually hides the <input type="file"> while keeping it programmatically clickable.
@@ -90,157 +170,268 @@
   opacity: 0 !important;
 }
 
-.pick-grid{
+.pick-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(160px,1fr));
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
   gap: 18px;
   margin: 8px 0 6px;
 }
-@media (max-width: 420px){
-  .pick-grid{ grid-template-columns: 1fr; }
+@media (max-width: 420px) {
+  .pick-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-.pick-card{
+.pick-card {
   /* Big, tappable tile */
-  appearance:none; -webkit-appearance:none;
-  background: var(--card, #F5F4E9);
-  border: 1px solid var(--border, rgba(0,0,0,.08));
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--card, #f5f4e9);
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.08));
   border-radius: 18px;
   padding: 16px;
   text-align: center;
   cursor: pointer;
   width: 100%;
-  box-shadow: 0 10px 22px rgba(0,0,0,.12);
-  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    border-color 0.12s ease;
 }
-.pick-card:hover{ transform: translateY(-2px); box-shadow: 0 16px 28px rgba(0,0,0,.16); border-color: rgba(23,85,46,.25); }
-.pick-card:active{ transform: translateY(0); box-shadow: 0 10px 22px rgba(0,0,0,.12); }
-.pick-card:focus-visible{ outline: 3px solid var(--focus,#ffd166); outline-offset: 2px; }
+.pick-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.16);
+  border-color: rgba(23, 85, 46, 0.25);
+}
+.pick-card:active {
+  transform: translateY(0);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+.pick-card:focus-visible {
+  outline: 3px solid var(--focus, #ffd166);
+  outline-offset: 2px;
+}
 
-.pick-card img{ width: 72px; height: 72px; display: block; margin: 0 auto 8px; pointer-events: none; }
-.pick-card .label{ font-weight: 700; font-size: 1.05rem; }
+.pick-card img {
+  width: 72px;
+  height: 72px;
+  display: block;
+  margin: 0 auto 8px;
+  pointer-events: none;
+}
+.pick-card .label {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
 
-.preview:empty{ display: none; } /* Hide until an image exists */
-.preview img{
-  max-width: 240px; max-height: 180px;
+.preview:empty {
+  display: none;
+} /* Hide until an image exists */
+.preview img {
+  max-width: 240px;
+  max-height: 180px;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.14);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
 }
 /* ======================= End FixIt: Photo Picker Styles (commented) ======================= */
 
-
 /* Overlay centering */
-.overlay{ position:fixed; inset:0; display:grid; place-items:center; background:rgba(0,0,0,.22); z-index:9999 }
-.overlay[hidden]{ display:none }
-
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.22);
+  z-index: 9999;
+}
+.overlay[hidden] {
+  display: none;
+}
 
 /* Picker grid tidy */
-.pick-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; align-items:stretch; justify-items:stretch; margin:8px 0 10px }
-@media (max-width:480px){ .pick-grid{ grid-template-columns:1fr; } }
-
-.pick-card{
-  appearance:none; -webkit-appearance:none;
-  background:#fffdf8; border:1px solid rgba(0,0,0,.08); border-radius:16px;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:8px; padding:14px; height:140px; width:100%;
-  cursor:pointer; box-shadow:0 10px 22px rgba(0,0,0,.12);
-  transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+.pick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  align-items: stretch;
+  justify-items: stretch;
+  margin: 8px 0 10px;
 }
-.pick-card:hover{ transform:translateY(-2px); box-shadow:0 16px 28px rgba(0,0,0,.16) }
-.pick-card img{ width:64px; height:64px; pointer-events:none }
-.pick-card .label{ font-weight:700 }
+@media (max-width: 480px) {
+  .pick-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
+.pick-card {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #fffdf8;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  height: 140px;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    border-color 0.12s ease;
+}
+.pick-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.16);
+}
+.pick-card img {
+  width: 64px;
+  height: 64px;
+  pointer-events: none;
+}
+.pick-card .label {
+  font-weight: 700;
+}
 
 /* ===== FixIt UI polish: upload overlay & thumbnail actions ===== */
-.modal{ box-sizing:border-box; }
-.modal .actions, .modal .center{ text-align:center; display:flex; justify-content:center; }
-.thumb-actions{
-  display:flex; gap:22px; justify-content:center; align-items:center;
-  margin-top:8px; margin-bottom:4px;
+.modal {
+  box-sizing: border-box;
 }
-.thumb-actions .link{
-  appearance:none; -webkit-appearance:none;
-  background:none; border:none; padding:4px 8px;
-  color: #1e5b3a; text-decoration: underline; font-weight:600; border-radius:8px;
+.modal .actions,
+.modal .center {
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
-.thumb-actions .link:focus-visible{ outline:2px solid #ffd166; outline-offset:2px }
+.thumb-actions {
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+.thumb-actions .link {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  color: #1e5b3a;
+  text-decoration: underline;
+  font-weight: 600;
+  border-radius: 8px;
+}
+.thumb-actions .link:focus-visible {
+  outline: 2px solid #ffd166;
+  outline-offset: 2px;
+}
 
-.pick-grid{ box-sizing:border-box; width:100%; margin:8px 0 12px; }
-.pick-card{ box-sizing:border-box; height:140px; }
-.preview{ margin-top:6px; text-align:center; }
-.preview img{
+.pick-grid {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 8px 0 12px;
+}
+.pick-card {
+  box-sizing: border-box;
+  height: 140px;
+}
+.preview {
+  margin-top: 6px;
+  text-align: center;
+}
+.preview img {
   max-width: calc(100% - 16px);
   max-height: 180px;
-  border-radius:12px; display:inline-block;
-  box-shadow:0 8px 20px rgba(0,0,0,.14);
+  border-radius: 12px;
+  display: inline-block;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
 }
 /* Center the Close button and prevent it from drifting outside the modal */
-#closePhotoOverlay.btn{ display:inline-flex; align-items:center; justify-content:center; }
+#closePhotoOverlay.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* ===== FixIt: Upload overlay layout polish ===== */
 
 /* Keep the overlay modal compact and predictable */
-.overlay{ display:grid; place-items:center; }
-.modal{ box-sizing:border-box; width:90vw; max-width:420px; }
+.overlay {
+  display: grid;
+  place-items: center;
+}
+.modal {
+  box-sizing: border-box;
+  width: 90vw;
+  max-width: 420px;
+}
 
 /* 1) Camera / Gallery row */
-.pick-grid{
-  display:grid;
+.pick-grid {
+  display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap:16px;
-  align-items:stretch;
-  justify-items:stretch;
+  gap: 16px;
+  align-items: stretch;
+  justify-items: stretch;
   margin: 6px 0 10px;
 }
-@media (max-width: 480px){
-  .pick-grid{ grid-template-columns: 1fr; }
+@media (max-width: 480px) {
+  .pick-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* 2) Preview centered under the tiles, never pushes layout */
-.preview{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin-top:10px;
-  min-height: 0;              /* avoid weird extra height */
+.preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  min-height: 0; /* avoid weird extra height */
 }
-.preview:empty{ display:none; }
-.preview img{
-  max-width: 240px;           /* tweak if you want larger/smaller */
+.preview:empty {
+  display: none;
+}
+.preview img {
+  max-width: 240px; /* tweak if you want larger/smaller */
   max-height: 200px;
-  width:auto; height:auto;
+  width: auto;
+  height: auto;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.14);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
 }
 
 /* 3) Close button: small, centered, not full-width */
-.modal > .center{
-  display:flex;
-  justify-content:center;
+.modal > .center {
+  display: flex;
+  justify-content: center;
   margin-top: 12px;
 }
-.modal .btn{
-  width: auto;                /* override any global 100% width */
+.modal .btn {
+  width: auto; /* override any global 100% width */
   display: inline-flex;
-  align-items:center;
-  justify-content:center;
+  align-items: center;
+  justify-content: center;
 }
-.modal .btn.btn-ghost{ padding: 8px 16px; min-width: 120px; font-size: 0.95r
+.modal .btn.btn-ghost {
+  padding: 8px 16px;
+  min-width: 120px;
+  font-size: 0.95r;
 }
-
-
 
 /* === FixIt: force Close to bottom-center of the overlay === */
 
 /* Give the modal a reserved space for the Close button */
-.overlay .modal{
-  position: relative;            /* create positioning context */
-  padding-bottom: 84px;          /* room for the Close pill */
+.overlay .modal {
+  position: relative; /* create positioning context */
+  padding-bottom: 84px; /* room for the Close pill */
   box-sizing: border-box;
 }
 
 /* Pin the Close button to the bottom-middle, always */
-.overlay .modal #closePhotoOverlay{
+.overlay .modal #closePhotoOverlay {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -258,17 +449,18 @@
 }
 
 /* Keep preview nicely centered above Close */
-.overlay .modal .preview{
+.overlay .modal .preview {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 12px;
 }
-.overlay .modal .preview:empty{ display:none; }
-.overlay .modal .preview img{
+.overlay .modal .preview:empty {
+  display: none;
+}
+.overlay .modal .preview img {
   max-width: 240px;
   max-height: 200px;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.14);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
 }
-

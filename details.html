@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FixIt — Details</title>
+    
     <link rel="stylesheet" href="styles.css"/>
   <link rel="stylesheet" href="missionx.css" />
   </head>
@@ -11,8 +12,10 @@
   <a class="skip-link" href="#main">Skip to main content</a>
     <div class="stage">
       <div class="screen">
-        <header><h1>Tell us a bit more</h1></header>
+        <!-- <header>
+      </header> -->
         <main id="main" class="pane">
+          <h1>Tell us a bit more</h1>
           <label for="desc" class="mt8">Describe the issue…</label>
           <textarea maxlength="240"
             id="desc"
@@ -68,6 +71,7 @@
   </div>
      
     <script src="app-m4.js" defer></script>
+    <script src="themecontroller.js"></script>
     <script>
     // Small controller for photo overlay open/close + thumbnail display
     (function(){
