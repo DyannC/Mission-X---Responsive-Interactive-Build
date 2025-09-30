@@ -7,6 +7,100 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="missionx.css">
   </head>
+  <script>
+(function () {
+  if (!/issuetype\.html/i.test(location.pathname)) return;
+
+  // --- Create/Show/Hide the error banner ---
+  function ensureBanner(){
+    let b = document.getElementById('pageError');
+    if (!b){
+      b = document.createElement('div');
+      b.id = 'pageError';
+      b.className = 'error-banner';
+      b.setAttribute('role','alert');
+      b.setAttribute('aria-live','assertive');
+      b.hidden = true;
+      (document.querySelector('main,#main,.pane') || document.body).prepend(b);
+    }
+    return b;
+  }
+  function showError(msg){
+    const b = ensureBanner();
+    b.textContent = msg || 'Please choose an issue type before continuing.';
+    b.hidden = false;
+    b.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  function hideError(){
+    const b = document.getElementById('pageError');
+    if (b){ b.hidden = true; b.textContent = ''; }
+  }
+
+  // --- Is something selected *on this page now*? ---
+  const hasSelectionNow = () =>
+    !!document.querySelector('.grid .tile.selected, .issue-card.selected, [data-issue].selected, input[name="issueType"]:checked');
+
+  // --- Make tiles selectable + clear error ---
+  document.querySelectorAll('.grid .tile, .issue-card, [data-issue]').forEach(card=>{
+    if (card.tabIndex < 0) card.tabIndex = 0;
+    const choose = ()=>{
+      document.querySelectorAll('.grid .tile, .issue-card, [data-issue]').forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+      hideError();
+    };
+    card.addEventListener('click', choose);
+    card.addEventListener('keydown', e=>{ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); choose(); }});
+  });
+
+  // --- Take control of the Next button/link completely ---
+  // 1) Find your Next control(s)
+  const next = (function findNext(){
+    const cands = Array.from(document.querySelectorAll(
+      '.rail .btn.grow, a.btn.grow, button.btn.grow, .next, .next-btn'
+    ));
+    // prefer the last one in the rail area
+    return cands[cands.length-1] || null;
+  })();
+  if (!next) return;
+
+  // 2) Clone it to strip any old listeners
+  const cloned = next.cloneNode(true);
+  next.replaceWith(cloned);
+
+  // 3) Save destination href (if it's an <a>) and lock it
+  let dest = 'details.html';
+  if (cloned.tagName === 'A'){
+    dest = cloned.getAttribute('href') || dest;
+    cloned.removeAttribute('href');              // lock navigation
+  } else {
+    cloned.disabled = true;                      // if it's a <button>
+  }
+  cloned.classList.add('is-disabled');
+
+  // 4) Our click handler: show error OR navigate explicitly
+  cloned.addEventListener('click', function(e){
+    e.preventDefault();      // we always control navigation
+    e.stopImmediatePropagation();
+
+    if (!hasSelectionNow()){
+      showError('Please choose an issue type before continuing.');
+      return;
+    }
+    // unlock visual state (optional)
+    cloned.classList.remove('is-disabled');
+    // go to the original destination; no other handler can block this
+    window.location.assign(dest);
+  }, true);
+
+  // 5) Also guard form submit just in case
+  document.addEventListener('submit', function(e){
+    if (hasSelectionNow()) return;
+    e.preventDefault();
+    showError('Please choose an issue type before continuing.');
+  }, true);
+})();
+</script>
+
   <body>
     <div class="stage">
       <div class="screen screen--scroll">
