@@ -65,6 +65,7 @@ body.night-background .btn-darkgreen {
   color: #d8eaff;
 }
 
+/* ======== DARK MODE TOGGLE ======== */
 
 .button-con {
   position: absolute;
@@ -76,103 +77,23 @@ body.night-background .btn-darkgreen {
   z-index: 1000;
 }
 
-#dayIcon,
-#nightIcon {
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
-  fill: #f0c800;
-  flex-shrink: 0;
-  display: inline-block;
+#dayIcon,#nightIcon{ width:35px; height:35px; cursor:pointer; fill:#f0c800; flex-shrink:0; display:inline-block; }
+.toggle{ display:none; }
 
+/* Simple switch styling (like your teammate’s) */
+.toggle+.toggle-button{
+  outline:0;
+  display:inline-block;
+  width:4em; height:2em; position:relative; cursor:pointer;
+  padding:2px; border:2px solid rgba(0,125,249,.27); border-radius:2em;
+  transition:all .2s ease;
 }
-
-
-.toggle {
-  display: none;
+.toggle+.toggle-button:after{
+  content:""; display:block; width:50%; height:100%; border-radius:1em;
+  background: rgba(0,128,255,.27); transition:all .2s ease; position:relative; left:0;
 }
+.toggle:checked+.toggle-button:after{ left:50%; }
 
-.toggle,
-.toggle:after,
-.toggle:before,
-.toggle *,
-.toggle *:after,
-.toggle *:before,
-.toggle+.toggle-button {
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-.toggle::-moz-selection,
-.toggle:after::-moz-selection,
-.toggle:before::-moz-selection,
-.toggle *::-moz-selection,
-.toggle *:after::-moz-selection,
-.toggle *:before::-moz-selection,
-.toggle+.toggle-button::-moz-selection {
-  background: none;
-}
-
-.toggle::selection,
-.toggle:after::selection,
-.toggle:before::selection,
-.toggle *::selection,
-.toggle *:after::selection,
-.toggle *:before::selection,
-.toggle+.toggle-button::selection {
-  background: none;
-}
-
-.toggle+.toggle-button {
-  outline: 0;
-  display: inline-block;
-  width: 4em;
-  height: 2em;
-  position: relative;
-  cursor: pointer;
-  border: 2px solid #333;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.toggle+.toggle-button:after,
-.toggle+.toggle-button:before {
-  position: relative;
-  display: block;
-  content: "";
-  width: 50%;
-  height: 100%;
-}
-
-.toggle+.toggle-button:after {
-  left: 0;
-}
-
-.toggle+.toggle-button:before {
-  display: none;
-}
-
-.toggle:checked+.toggle-button:after {
-  left: 50%;
-}
-
-.toggle+.toggle-button {
-  padding: 2px;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-  border: 2px solid rgba(0, 125, 249, 0.27);
-  border-radius: 2em;
-}
-
-.toggle+.toggle-button:after {
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-  background: rgba(0, 128, 255, 0.27);
-  content: "";
-  border-radius: 1em;
-}
 
 
 /* ===== HEADER ===== */
@@ -180,6 +101,7 @@ header {
   width: 100%;
   height: 120px;
   background-color: #FFFFFF;
+  border-bottom: 1px solid #d5e7da;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -193,20 +115,6 @@ header {
   display: block;
 }
 
-
-
-/* ===== DARK MODE TOGGLE BUTTON ===== */
-#mode-toggle {
-  border: none;
-  background: transparent;
-  font-size: 22px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-#mode-toggle:hover {
-  transform: scale(1.1);
-}
 
 /* ===== MAIN CONTENT WRAPPER ===== */
 main {
