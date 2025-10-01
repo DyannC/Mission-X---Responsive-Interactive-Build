@@ -65,6 +65,7 @@ body.night-background .btn-darkgreen {
   color: #d8eaff;
 }
 
+/* ======== DARK MODE TOGGLE ======== */
 
 .button-con {
   position: absolute;
@@ -174,6 +175,18 @@ body.night-background .btn-darkgreen {
   border-radius: 1em;
 }
 
+#mode-toggle {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#mode-toggle:hover {
+  transform: scale(1.1);
+}
+
 
 /* ===== HEADER ===== */
 header {
@@ -193,20 +206,6 @@ header {
   display: block;
 }
 
-
-
-/* ===== DARK MODE TOGGLE BUTTON ===== */
-#mode-toggle {
-  border: none;
-  background: transparent;
-  font-size: 22px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-#mode-toggle:hover {
-  transform: scale(1.1);
-}
 
 /* ===== MAIN CONTENT WRAPPER ===== */
 main {
