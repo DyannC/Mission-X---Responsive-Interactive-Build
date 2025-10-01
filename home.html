@@ -172,5 +172,34 @@
         }
       })();
     </script>
+
+    <!-- white text for the homepage if its in dark mode -->
+    <script>
+(function () {
+  const BODY = document.body;
+  const SEL = '.hero h1, .hero h2, .hero p, .hero .lead';
+
+  function paintHeroText() {
+    const dark = BODY.classList.contains('night-background');
+    document.querySelectorAll(SEL).forEach(el => {
+      el.style.setProperty('color', dark ? '#ffffff' : '#25463D', 'important');
+      el.style.setProperty('text-shadow', dark ? '0 2px 6px rgba(0,0,0,.35)' : 'none', 'important');
+    });
+  }
+
+  // Run now
+  paintHeroText();
+
+  // Re-run when the toggle changes
+  document.getElementById('cb1')?.addEventListener('change', paintHeroText);
+
+  // Re-run if some other code flips the body class
+  new MutationObserver(paintHeroText).observe(BODY, { attributes: true, attributeFilter: ['class'] });
+
+  // Re-run if theme changes via localStorage from another tab/page
+  window.addEventListener('storage', paintHeroText);
+})();
+</script>
+
   </body>
 </html>
