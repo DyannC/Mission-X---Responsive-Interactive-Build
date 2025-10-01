@@ -1,152 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FixIt — Issue Type</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="missionx.css">
-    <!-- <link rel="stylesheet" href="homestyle.css"> -->
-  </head>
-  <script>
-(function () {
-  if (!/issuetype\.html/i.test(location.pathname)) return;
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FixIt — Issue Type</title>
 
-  // --- Create/Show/Hide the error banner ---
-  function ensureBanner(){
-    let b = document.getElementById('pageError');
-    if (!b){
-      b = document.createElement('div');
-      b.id = 'pageError';
-      b.className = 'error-banner';
-      b.setAttribute('role','alert');
-      b.setAttribute('aria-live','assertive');
-      b.hidden = true;
-      (document.querySelector('main,#main,.pane') || document.body).prepend(b);
-    }
-    return b;
-  }
-  function showError(msg){
-    const b = ensureBanner();
-    b.textContent = msg || 'Please choose an issue type before continuing.';
-    b.hidden = false;
-    b.scrollIntoView({behavior:'smooth', block:'start'});
-  }
-  function hideError(){
-    const b = document.getElementById('pageError');
-    if (b){ b.hidden = true; b.textContent = ''; }
-  }
+  <!-- Your global styles -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="missionx.css" />
 
-  // --- Is something selected *on this page now*? ---
-  const hasSelectionNow = () =>
-    !!document.querySelector('.grid .tile.selected, .issue-card.selected, [data-issue].selected, input[name="issueType"]:checked');
+  <!-- Tiny page-local polish (optional & harmless) -->
+  <style>
+    /* keep tiles crisp when focused/selected without shifting layout */
+    .grid .tile { transform: translateZ(0); }
+    .grid .tile:focus-visible { outline: 3px solid #2c6f4f; outline-offset: 4px; }
+  </style>
+</head>
 
-  // --- Make tiles selectable + clear error ---
-  document.querySelectorAll('.grid .tile, .issue-card, [data-issue]').forEach(card=>{
-    if (card.tabIndex < 0) card.tabIndex = 0;
-    const choose = ()=>{
-      document.querySelectorAll('.grid .tile, .issue-card, [data-issue]').forEach(c=>c.classList.remove('selected'));
-      card.classList.add('selected');
-      hideError();
-    };
-    card.addEventListener('click', choose);
-    card.addEventListener('keydown', e=>{ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); choose(); }});
-  });
+<body>
+  <!-- Header: logo + day/night toggle -->
+  <header class="fx-header">
+    <img src="images/Fixit logo.png" alt="FixIt" class="header-logo" />
 
-  // --- Take control of the Next button/link completely ---
-  // 1) Find your Next control(s)
-  const next = (function findNext(){
-    const cands = Array.from(document.querySelectorAll(
-      '.rail .btn.grow, a.btn.grow, button.btn.grow, .next, .next-btn'
-    ));
-    // prefer the last one in the rail area
-    return cands[cands.length-1] || null;
-  })();
-  if (!next) return;
+    <div class="button-con" role="group" aria-label="Theme toggle">
+      <!-- Sun icon -->
+      <label for="cb1" aria-hidden="true">
+        <svg id="dayIcon" viewBox="0 0 35 35" width="35" height="35" aria-hidden="true">
+          <path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5 C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6 C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9 c0.414,0,0.789-0.168,1.06-0.439l-2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44 l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5 c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06 L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2 C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29 c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7 C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5 c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"/>
+        </svg>
+      </label>
 
-  // 2) Clone it to strip any old listeners
-  const cloned = next.cloneNode(true);
-  next.replaceWith(cloned);
+      <input id="cb1" class="toggle" type="checkbox" role="switch" aria-label="Toggle dark mode" />
+      <label class="toggle-button" for="cb1" aria-hidden="true"></label>
 
-  // 3) Save destination href (if it's an <a>) and lock it
-  let dest = 'details.html';
-  if (cloned.tagName === 'A'){
-    dest = cloned.getAttribute('href') || dest;
-    cloned.removeAttribute('href');              // lock navigation
-  } else {
-    cloned.disabled = true;                      // if it's a <button>
-  }
-  cloned.classList.add('is-disabled');
-
-  // 4) Our click handler: show error OR navigate explicitly
-  cloned.addEventListener('click', function(e){
-    e.preventDefault();      // we always control navigation
-    e.stopImmediatePropagation();
-
-    if (!hasSelectionNow()){
-      showError('Please choose an issue type before continuing.');
-      return;
-    }
-    // unlock visual state (optional)
-    cloned.classList.remove('is-disabled');
-    // go to the original destination; no other handler can block this
-    window.location.assign(dest);
-  }, true);
-
-  // 5) Also guard form submit just in case
-  document.addEventListener('submit', function(e){
-    if (hasSelectionNow()) return;
-    e.preventDefault();
-    showError('Please choose an issue type before continuing.');
-  }, true);
-})();
-</script>
-
-  <body>
-   
-</header>
-
-    <div class="stage">
-      <div class="screen screen--scroll">          
-       <main class="pane">
-        <h1>What’s the <br> issue?</h1>
-  <div class="grid">
-    <a class="tile" href="details.html">
-      <div class="icon"><img src="images/graffiti.png" alt="Graffiti" /></div>
-      <strong>Graffiti</strong>
-    </a>
-
-    <a class="tile" href="details.html">
-      <div class="icon"><img src="images/hole 1.png" alt="Pothole" /></div>
-      <strong>Pothole</strong>
-    </a>
-
-    <a class="tile" href="details.html">
-      <div class="icon"><img src="images/streetlight 1.png" alt="Streetlight" /></div>
-      <strong>Streetlight</strong>
-    </a>
-
-    <a class="tile" href="details.html">
-      <div class="icon"><img src="images/dumping.png" alt="Dumping" /></div>
-      <strong>Dumping</strong>
-    </a>
-
-    <!-- Other — now SAME SIZE because it's inside the grid -->
-    <a class="tile" href="details.html">
-      <div class="icon"><img src="images/others.png" alt="Other" /></div>
-      <strong>Other</strong>
-    </a>
-  </div>
-</main>
-
-
-        <footer class="rail">
-          <a class="btn btn-ghost" href="home.html">Back</a>
-          <a class="btn grow" href="details.html">Next</a>
-        </footer>
-      </div>
+      <!-- Moon icon -->
+      <label for="cb1" aria-hidden="true">
+        <svg id="nightIcon" viewBox="0 0 100 100" width="35" height="35" aria-hidden="true">
+          <path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"/>
+        </svg>
+      </label>
     </div>
-    <script src="app-m4.js" defer></script>
-    
-  </body>
+  </header>
+
+  <!-- Page body -->
+  <div class="stage">
+    <div class="screen screen--scroll">
+      <main class="pane">
+        <h1>What’s the <br />issue?</h1>
+
+        <div class="grid">
+          <a class="tile" href="details.html">
+            <div class="icon"><img src="images/graffiti.png" alt="Graffiti" /></div>
+            <strong>Graffiti</strong>
+          </a>
+
+          <a class="tile" href="details.html">
+            <div class="icon"><img src="images/hole 1.png" alt="Pothole" /></div>
+            <strong>Pothole</strong>
+          </a>
+
+          <a class="tile" href="details.html">
+            <div class="icon"><img src="images/streetlight 1.png" alt="Streetlight" /></div>
+            <strong>Streetlight</strong>
+          </a>
+
+          <a class="tile" href="details.html">
+            <div class="icon"><img src="images/dumping.png" alt="Dumping" /></div>
+            <strong>Dumping</strong>
+          </a>
+
+          <a class="tile" href="details.html">
+            <div class="icon"><img src="images/others.png" alt="Other" /></div>
+            <strong>Other</strong>
+          </a>
+        </div>
+      </main>
+
+      <footer class="rail">
+        <a class="btn btn-ghost" href="home.html">Back</a>
+        <a class="btn grow" href="details.html">Next</a>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Tiny theme script (persists day/night) -->
+  <script>
+    (function () {
+      const KEY = 'fixit_theme';
+      const body = document.body;
+      const toggle = document.getElementById('cb1');
+      const dayIcon = document.getElementById('dayIcon');
+      const nightIcon = document.getElementById('nightIcon');
+
+      function apply(mode){
+        body.classList.remove('day-background','night-background');
+        body.classList.add(mode === 'night' ? 'night-background' : 'day-background');
+        if (toggle) toggle.checked = (mode === 'night');
+        try { localStorage.setItem(KEY, mode); } catch {}
+      }
+
+      let saved = null;
+      try { saved = localStorage.getItem(KEY); } catch {}
+      if (!saved) {
+        const prefersDark = window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches;
+        saved = prefersDark ? 'night' : 'day';
+      }
+      apply(saved);
+
+      toggle?.addEventListener('change', () => apply(toggle.checked ? 'night' : 'day'));
+      dayIcon?.addEventListener('click', () => apply('day'));
+      nightIcon?.addEventListener('click', () => apply('night'));
+    })();
+  </script>
+</body>
 </html>

@@ -189,53 +189,7 @@ header {
 
 
 /* ---------- Theme & Layout Vars ---------- */
-:root {
-  --font-family-inter: 'Inter', sans-serif;
-  /* Palette */
-  --bg: #edfdd9;
-  /* page background around the phone */
-  --screen: #edfdd9;
-  /* inside the phone (matches other pages) */
-  --card: #F5F4E9;
-  --soft: #f6fbf7;
-  --border: #d5e7da;
-  --text: #25463d;
 
-  /* Fixed device size (iPhone 12/13) */
-  --w: 390px;
-  --h: 844px;
-
-  /* CTA gradient */
-  --g1: #48905f;
-  --g2: #17552e;
-  --btnGrad: linear-gradient(90deg, var(--g1) 0%, var(--g2) 100%);
-
-  /* Assets (update paths to your repo) */
-  --logo-url: url("images/fixitlogo.png");
-  --forest-url: url("images/forest.png");
-  --people-url: url("images/logohome.png");
-}
-
-/* ---------- Reset / Base ---------- */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font: 400 16px/1.6 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  display: grid;
-  place-items: start center;
-  padding: 24px;
-}
 
 /* ---------- Fixed-size phone frame ----------
 .stage {
@@ -774,4 +728,167 @@ textarea {
   .report-card {
     max-width: 480px;
   }
+}
+
+
+/* ========= Logo - day and night toggle */
+
+header { width:100%; height:120px; background:#fff; display:flex; align-items:center; justify-content:space-between; padding:0 25px; }
+.header-logo { height:90px; display:block; }
+.button-con { position:absolute; top:50px; right:50px; display:flex; align-items:center; gap:10px; z-index:1000; }
+.toggle { display:none; }
+.toggle+.toggle-button { width:4em; height:2em; padding:2px; border:2px solid rgba(0,125,249,.27); border-radius:2em; cursor:pointer; display:inline-block; }
+.toggle+.toggle-button:after { content:""; display:block; width:50%; height:100%; background:rgba(0,128,255,.27); border-radius:1em; transition:all .2s ease; }
+.toggle:checked+.toggle-button:after { left:50%; position:relative; }
+#dayIcon,#nightIcon{ width:35px; height:35px; cursor:pointer; }
+body.day-background{ background:#f0fddf url("images/forest.png") repeat-x bottom; background-size:auto; color:#25463D; }
+body.night-background{ background:#0b172a url("images/forest.png") repeat-x bottom; background-size:auto; color:#d8eaff; }
+
+/* --- Keep app/content text stable across themes --- */
+:root { --ink: #25463D; }
+
+main, .pane, .stage, .content, .page-wrap { color: var(--ink); }
+
+main h1, main h2, main h3,
+main p, main .lead,
+.grid .tile strong,
+label, .form label {
+  color: var(--ink) !important;
+}
+
+/* Do NOT globally recolor everything in night mode */
+body.night-background { color: inherit; }
+
+/* Remove/neutralize the old global night overrides */
+body.night-background h1,
+body.night-background h2,
+body.night-background p,
+body.night-background label {
+  color: inherit !important;
+}
+
+/* Header can still adapt in night mode */
+header {
+  background: #ffffff;
+  position: sticky; top: 0; z-index: 1000;
+}
+body.night-background header { background: #0e1b2f; }
+body.night-background header .header-logo { filter: brightness(1.1) contrast(1.05); }
+
+
+/* one-class hammer if something still overrides it */
+.solid-input {
+  background: #ffffff !important;
+  background-image: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+body.night-background .solid-input {
+  background: #F5F3EA !important;
+}
+
+
+/* ==== Theme tokens (day/night) ==== */
+:root{
+  --surface: #FFFFFF;
+  --ink:     #25463D;
+  --border:  #D9E8DA;
+  --shadow:  0 6px 18px rgba(0,0,0,.08);
+}
+
+body.night-background{
+  --surface: #F5F3EA;
+  --ink:     #0B172A;
+  --border:  #B9C9C0;
+  --shadow:  0 6px 18px rgba(0,0,0,.25);
+}
+
+/* ==== Solid input utility (kills glass/blur/gradients) ==== */
+.input-solid{
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 14px;
+  padding: 14px 18px;
+  width: 100%;
+  box-shadow: var(--shadow);
+  background-image: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Optional: keep placeholder readable */
+.input-solid::placeholder{ color: color-mix(in srgb, var(--ink) 60%, transparent); }
+
+/* Optional: align with your wide controls */
+.coords-row .input-solid,
+#coords.input-solid{ max-width: 720px; margin-inline: auto; display: block; }
+
+/* solid card (no glass) */
+.card-solid{
+  background: var(--surface) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* already created earlier; keep using it for inputs you want solid */
+.input-solid{
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 14px;
+  padding: 14px 18px;
+  width: 100%;
+  box-shadow: var(--shadow);
+  background-image: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+
+h1 {
+  color: #1a1a1a; /* dark green/black for readability in day mode */
+  font-weight: 700;
+  text-align: center;
+}
+
+/* optional: override for night mode */
+body.night-background h1 {
+  color: #f0f0f0; /* light text for dark background */
+}
+/* Issue page heading — force visible in day & night */
+.pane h1,
+.screen .pane h1 {
+  color: #25463D !important;  /* deep green */
+  font-weight: 900;
+  line-height: 1.1;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+  text-shadow: none !important;
+  position: relative;         /* allow z-index */
+  z-index: 2;                 /* above any backgrounds */
+}
+
+/* If your page uses a specific wrapper, include it too */
+.issuetype h1 { color: #25463D !important; }
+
+/* Night theme override */
+body.night-background .pane h1,
+body.night-background .issuetype h1 {
+  color: #F2F7F4 !important;  /* light text on dark */
+}
+
+/* Safety: don't let a translucent header wash over the title */
+.fx-header { z-index: 10; }
+.error-banner{
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #ffe4e4;
+  color: #7a1b1b;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(0,0,0,.08) inset;
 }

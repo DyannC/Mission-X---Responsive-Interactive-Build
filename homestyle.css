@@ -1,5 +1,5 @@
 /* -------------------------------------------------
-   FixIt — Home (consolidated, conflict-free stylesheet)
+   FixIt — Home 
    ------------------------------------------------- */
 
 /* Fonts & design tokens */
@@ -43,7 +43,7 @@ header{
   padding: 0 25px;
 }
 
-.header-logo{ height: 80px; display:block; }
+.header-logo{ height: 90px; display:block; }
 
 .button-con{
   position: absolute;
@@ -152,29 +152,77 @@ p.lead{
 }
 
 
-/* ---------- THEME (Day/Night) ---------- */
-/* Day */
-body.day-background{
-  background:#f0fddf url("images/forest.png") repeat-x bottom;
-  background-size:auto;
-  color:#25463D;
+/* * ========= Logo - day and night toggle */ 
+
+header { width:100%; height:120px; background:#fff; display:flex; align-items:center; justify-content:space-between; padding:0 25px; }
+.header-logo { height:90px; display:block; }
+.button-con { position:absolute; top:50px; right:50px; display:flex; align-items:center; gap:10px; z-index:1000; }
+.toggle { display:none; }
+.toggle+.toggle-button { width:4em; height:2em; padding:2px; border:2px solid rgba(0,125,249,.27); border-radius:2em; cursor:pointer; display:inline-block; }
+.toggle+.toggle-button:after { content:""; display:block; width:50%; height:100%; background:rgba(0,128,255,.27); border-radius:1em; transition:all .2s ease; }
+.toggle:checked+.toggle-button:after { left:50%; position:relative; }
+#dayIcon,#nightIcon{ width:35px; height:35px; cursor:pointer; }
+body.day-background{ background:#f0fddf url("images/forest.png") repeat-x bottom; background-size:auto; color:#25463D; }
+body.night-background{ background:#0b172a url("images/forest.png") repeat-x bottom; background-size:auto; color:#d8eaff; }
+
+/* --- Keep app/content text stable across themes --- */
+:root { --ink: #25463D; }
+
+main, .pane, .stage, .content, .page-wrap { color: var(--ink); }
+
+main h1, main h2, main h3,
+main p, main .lead,
+.grid .tile strong,
+label, .form label {
+  color: var(--ink) !important;
 }
-/* Night */
+
+/* Do NOT globally recolor everything in night mode */
+body.night-background { color: inherit; }
+
+/* Remove/neutralize the old global night overrides */
+body.night-background h1,
+body.night-background h2,
+body.night-background p,
+body.night-background label {
+  color: inherit !important;
+}
+
+/* Header can still adapt in night mode */
+header {
+  background: #ffffff;
+  position: sticky; top: 0; z-index: 1000;
+}
+body.night-background header { background: #0e1b2f; }
+body.night-background header .header-logo { filter: brightness(1.1) contrast(1.05); }
+
+
+/* one-class hammer if something still overrides it */
+.solid-input {
+  background: #ffffff !important;
+  background-image: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+body.night-background .solid-input {
+  background: #F5F3EA !important;
+}
+
+
+/* ==== Theme tokens (day/night) ==== */
+:root{
+  --surface: #FFFFFF;
+  --ink:     #25463D;
+  --border:  #D9E8DA;
+  --shadow:  0 6px 18px rgba(0,0,0,.08);
+}
+
 body.night-background{
-  background:#0b172a url("images/forest.png") repeat-x bottom;
-  background-size:auto;
-  color:#d8eaff;
+  --surface: #F5F3EA;
+  --ink:     #0B172A;
+  --border:  #B9C9C0;
+  --shadow:  0 6px 18px rgba(0,0,0,.25);
 }
-
-/* Keep hero text readable at night (you asked for #25463D fixed; comment out the next block if you want white at night) */
-body.night-background .hero h1,
-body.night-background .hero p.lead{ color:#25463D !important; }
-
-/* Optional: gentle dim on hero at night for contrast */
-body.night-background .hero::after{
-  content:""; position:absolute; inset:0; background:rgba(0,0,0,.08); pointer-events:none;
-}
-
 /* ---------- Responsive ---------- */
 @media (max-width: 900px){
   :root{ --logo-size: 76px; }
@@ -314,3 +362,22 @@ a:focus-visible, button:focus-visible, .toggle-button:focus-visible{
 body.night-background .hero .lead{
   color: #25463D;
 }
+
+/* Lift hero content closer to the top */
+.hero{
+  /* was: place-items:center; */
+  place-items: start center;     /* top + horizontally centered */
+  padding-top: clamp(16px, 6vh, 96px);
+}
+
+/* Make sure internal grid aligns from the top too */
+.hero__wrap{ align-items: start; }
+
+/* Keep the art pinned without covering the text */
+@media (min-width: 901px){
+  .hero__art{ bottom: 0; right: clamp(10px,6vw,120px); }
+}
+
+/* Remove the header divider in night mode */
+.fx-header{ border-bottom: none; }
+.day-background .fx-header{ border-bottom: 1px solid #dfeee3; }
