@@ -30,27 +30,9 @@
     if (b){ b.hidden = true; b.textContent = ""; }
   }
 
-  // ----------------------------
-  // 1) Issue type tiles (store selection)
-  // ----------------------------
-  const tiles = $$(".grid .tile");
-  if (tiles.length){
-    tiles.forEach(tile => {
-      const label = (tile.querySelector("strong")?.textContent || tile.getAttribute("data-issue") || tile.textContent || "").trim() || "Other";
-      tile.setAttribute("tabindex","0");
-      const choose = ()=>{
-        localStorage.setItem("fixit_issue_type", label);
-        tiles.forEach(t=>t.classList.remove("selected"));
-        tile.classList.add("selected");
-        hideError();
-        saveDraft();
-      };
-      tile.addEventListener("click", choose);
-      tile.addEventListener("keydown", e=>{ if (e.key===" "||e.key==="Enter"){ e.preventDefault(); choose(); }});
-    });
-  }
 
-  
+
+
 
   // ----------------------------
   // 2) Description character counter
