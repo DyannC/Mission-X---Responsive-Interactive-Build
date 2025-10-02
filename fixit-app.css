@@ -94,6 +94,14 @@ body.night-background .btn-darkgreen {
 }
 .toggle:checked+.toggle-button:after{ left:50%; }
 
+/* Header can still adapt in night mode */
+header {
+  background: #ffffff;
+  position: sticky; top: 0; z-index: 1000;
+}
+body.night-background header { background: #0e1b2f; }
+body.night-background header .header-logo { filter: brightness(1.1) contrast(1.05); }
+
 
 
 /* ===== HEADER ===== */
@@ -101,7 +109,7 @@ header {
   width: 100%;
   height: 120px;
   background-color: #FFFFFF;
-  border-bottom: 1px solid #d5e7da;
+  /* border-bottom: 1px solid #d5e7da; */
   display: flex;
   align-items: center;
   justify-content: space-between;
