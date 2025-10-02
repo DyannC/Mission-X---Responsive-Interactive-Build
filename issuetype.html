@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FixIt — Issue Type</title>
 
-    <!-- Your global styles -->
+    <!-- Global CSS shared across pages -->
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="missionx.css" />
 
-    <!-- Tiny page-local polish (optional & harmless) -->
+    <!-- Page-local polish: keeps tiles crisp on focus without shifting layout -->
     <style>
-      /* keep tiles crisp when focused/selected without shifting layout */
       .grid .tile {
         transform: translateZ(0);
       }
@@ -23,12 +22,14 @@
   </head>
 
   <body>
-    <!-- Header: logo + day/night toggle -->
+    <!-- ===================== HEADER ===================== -->
+    <!-- Logo + Day/Night toggle. The toggle state is persisted in localStorage. -->
     <header class="fx-header">
+      <a href="home.html" aria-label="Go to home">
       <img src="images/Fixit logo.png" alt="FixIt" class="header-logo" />
-
+      </a>
       <div class="button-con" role="group" aria-label="Theme toggle">
-        <!-- Sun icon -->
+        <!-- Sun icon: clicking sets theme to Day -->
         <label for="cb1" aria-hidden="true">
           <svg
             id="dayIcon"
@@ -43,6 +44,7 @@
           </svg>
         </label>
 
+        <!-- Actual checkbox controls theme; styled by adjacent label -->
         <input
           id="cb1"
           class="toggle"
@@ -52,7 +54,7 @@
         />
         <label class="toggle-button" for="cb1" aria-hidden="true"></label>
 
-        <!-- Moon icon -->
+        <!-- Moon icon: clicking sets theme to Night -->
         <label for="cb1" aria-hidden="true">
           <svg
             id="nightIcon"
@@ -69,9 +71,10 @@
       </div>
     </header>
 
-    <!-- Page body -->
+    <!-- ===================== PAGE BODY ===================== -->
     <div class="stage">
       <div class="screen screen--scroll">
+        <!-- Live region for light feedback (not used by the toast code below; kept as-is) -->
         <div
           id="issueFeedback"
           class="feedback"
@@ -79,8 +82,11 @@
           aria-live="polite"
           hidden
         ></div>
+
         <main class="pane">
           <h1>What’s the <br />issue?</h1>
+
+          <!-- Note: there are two #issueFeedback nodes in the original file; left unchanged -->
           <div
             id="issueFeedback"
             class="feedback"
@@ -88,6 +94,8 @@
             aria-live="polite"
             hidden
           ></div>
+
+          <!-- Issue tiles: selecting one stores the label and (after a brief toast) navigates to details.html -->
           <div class="grid">
             <a class="tile" href="details.html">
               <div class="icon">
@@ -126,6 +134,7 @@
           </div>
         </main>
 
+        <!-- Footer nav -->
         <footer class="rail">
           <a class="btn btn-ghost" href="home.html">Back</a>
           <a class="btn grow" href="details.html">Next</a>
@@ -133,7 +142,8 @@
       </div>
     </div>
 
-    <!-- Tiny theme script (persists day/night) -->
+    <!-- ===================== THEME SCRIPT ===================== -->
+    <!-- Persists Day/Night theme in localStorage and applies corresponding body class -->
     <script>
       (function () {
         const KEY = "fixit_theme";
@@ -143,16 +153,20 @@
         const nightIcon = document.getElementById("nightIcon");
 
         function apply(mode) {
+          // Remove both theme classes, then add the requested one.
           body.classList.remove("day-background", "night-background");
           body.classList.add(
             mode === "night" ? "night-background" : "day-background"
           );
+          // Keep the checkbox in sync with the applied mode.
           if (toggle) toggle.checked = mode === "night";
+          // Save choice.
           try {
             localStorage.setItem(KEY, mode);
           } catch {}
         }
 
+        // Resolve initial theme: saved value > OS preference > day
         let saved = null;
         try {
           saved = localStorage.getItem(KEY);
@@ -165,6 +179,7 @@
         }
         apply(saved);
 
+        // Wire up the UI
         toggle?.addEventListener("change", () =>
           apply(toggle.checked ? "night" : "day")
         );
@@ -173,15 +188,17 @@
       })();
     </script>
 
-    <!-- Issuetype css and js for thank you text -->
+    <!-- ===================== TILE "THANKS" TOAST ===================== -->
+    <!-- Shows a brief ARIA-friendly toast after user picks a tile.
+         Stores the chosen label in localStorage, then (for links) navigates after a short delay. -->
     <script>
       (function () {
-        // --- tiny CSS for the toast (injected so you don’t touch your CSS files)
+        // Inject small CSS for the toast. Kept inline so your CSS files remain unchanged.
         const css = `
     #issueToast{
       position:fixed;
       left:50%;
-      top:calc(120px + 10px);        /* sits just under your header */
+      top:calc(120px + 10px);        /* just under the sticky header */
       transform:translateX(-50%);
       background:#eaf7ea;
       border:1px solid #b7e0b7;
@@ -201,7 +218,7 @@
         style.textContent = css;
         document.head.appendChild(style);
 
-        // --- build the toast (role=status for polite announcement)
+        // Build the toast element (role="status" announces politely to AT)
         const toast = document.createElement("div");
         toast.id = "issueToast";
         toast.setAttribute("role", "status");
@@ -209,6 +226,7 @@
         toast.hidden = true;
         document.body.appendChild(toast);
 
+        // Helper to show/hide the toast briefly
         function showToast(msg) {
           toast.textContent = msg;
           toast.hidden = false;
@@ -221,6 +239,7 @@
           }, 900);
         }
 
+        // Derive a label for any tile (supports <a>, custom elements, etc.)
         function labelFor(el) {
           return (
             el.getAttribute("data-issue") ||
@@ -230,27 +249,29 @@
           ).trim();
         }
 
-        // --- wire up tiles
+        // Wire up all tiles (and anything with .issue-card or [data-issue], if present)
         const tiles = Array.from(
           document.querySelectorAll(".grid .tile, .issue-card, [data-issue]")
         );
-        tiles.forEach((tile) => {
-          const href = tile.getAttribute("href"); // if it’s an <a>, we’ll navigate after the toast
 
+        tiles.forEach((tile) => {
+          const href = tile.getAttribute("href"); // if present, we’ll navigate after toast
+
+          // Click handler saves the choice, shows a toast, then navigates (if link)
           tile.addEventListener(
             "click",
             (e) => {
               const label = labelFor(tile);
 
-              // save selection
+              // Persist the user’s selection
               try {
                 localStorage.setItem("fixit_issue_type", label);
               } catch {}
 
-              // thank-you toast
+              // Brief “Thanks” toast
               showToast(`Thanks! You picked ${label}.`);
 
-              // if the tile is a link, delay navigation so the toast can be seen
+              // If this tile is a link, delay navigation so the toast is visible
               if (href) {
                 e.preventDefault();
                 setTimeout(() => {
@@ -258,10 +279,10 @@
                 }, 650);
               }
             },
-            { capture: true }
+            { capture: true } // run early to avoid interference
           );
 
-          // keyboard support for non-links
+          // Keyboard support for non-link tiles
           if (!/^(A|BUTTON)$/i.test(tile.tagName)) {
             tile.tabIndex = tile.tabIndex || 0;
             tile.addEventListener("keydown", (ev) => {

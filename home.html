@@ -4,13 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FixIt — Home</title>
+
+    <!-- Preconnects + web fonts used in your design -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-    
 
-
-    <!-- Early theme pick (localStorage > OS). Keeps things consistent on first paint. -->
+    <!--
+      EARLY THEME BOOT: read saved theme (or OS preference) early
+      and add the corresponding class to <body> before the page paints.
+      This prevents a flash of the wrong theme on load.
+    -->
     <script>
       (function () {
         var KEY = "fixit_theme";
@@ -18,38 +22,37 @@
         try {
           var saved = localStorage.getItem(KEY);
           if (saved) {
-            mode = saved;
+            mode = saved;                           // use persisted choice
           } else if (
             window.matchMedia &&
             window.matchMedia("(prefers-color-scheme: dark)").matches
           ) {
-            mode = "night";
+            mode = "night";                         // fall back to OS preference
           }
-        } catch (e) {}
+        } catch (e) {}                              // ignore private mode errors
 
-        // Defer until body exists (head runs before <body> is parsed)
+        // Wait until <body> exists, then set the theme class
         function applyEarly() {
           var b = document.body;
-          if (!b) {
-            requestAnimationFrame(applyEarly);
-            return;
-          }
+          if (!b) { requestAnimationFrame(applyEarly); return; }
           b.classList.remove("day-background", "night-background");
-          b.classList.add(
-            mode === "night" ? "night-background" : "day-background"
-          );
+          b.classList.add(mode === "night" ? "night-background" : "day-background");
         }
         applyEarly();
       })();
     </script>
 
-    <!-- Main stylesheet (your homestyle.css with hero rules) -->
+    <!-- Your main stylesheet for this page (hero/layout rules live here) -->
     <link rel="stylesheet" href="homestyle.css" />
   </head>
 
   <body class="home">
-    <!-- Header -->
+    <!-- =========================================================
+         Header: FixIt logo + accessible theme toggle (sun/switch/moon)
+         ========================================================= -->
     <header>
+      <!-- Brand logo (image only; navigation added elsewhere if needed) -->
+      <a href="home.html" aria-label="Go to home">
       <img
         src="images/Fixit logo.png"
         alt="FixIt"
@@ -58,10 +61,11 @@
         height="90"
         decoding="async"
       />
+      </a> 
 
-      <!-- Day/Night toggle (accessible) -->
+      <!-- Theme toggle control group -->
       <div class="button-con" role="group" aria-label="Theme toggle">
-        <!-- Sun icon -->
+        <!-- Sun icon button (forces day mode) -->
         <button
           type="button"
           id="dayIcon"
@@ -70,12 +74,12 @@
         >
           <svg viewBox="0 0 35 35" width="35" height="35" aria-hidden="true">
             <path
-              d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"
+              d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9 c0.414,0,0.789-0.168,1.06-0.439l-2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44 l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5 c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06 L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2 C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29 c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7 C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5 c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"
             />
           </svg>
         </button>
 
-        <!-- Switch -->
+        <!-- The actual switch (screen-reader friendly) -->
         <input
           class="toggle"
           id="cb1"
@@ -86,7 +90,7 @@
         />
         <label class="toggle-button" for="cb1"></label>
 
-        <!-- Moon icon -->
+        <!-- Moon icon button (forces night mode) -->
         <button
           type="button"
           id="nightIcon"
@@ -102,7 +106,9 @@
       </div>
     </header>
 
-    <!-- Hero -->
+    <!-- =========================================================
+         HERO: two-column text + illustration pinned to bottom-right
+         ========================================================= -->
     <main class="container hero">
       <div class="hero__wrap">
         <section>
@@ -111,11 +117,12 @@
             See a pothole, broken light, or dumping? Report it in minutes and
             help keep our neighborhoods cared-for.
           </p>
+          <!-- Primary CTA -->
           <a class="btn" href="issuetype.html">Report an issue</a>
         </section>
       </div>
 
-      <!-- moved out of .hero__wrap -->
+      <!-- Illustration positioned by CSS (below text, bottom-right) -->
       <img
         src="images/logohome.png"
         class="hero__art"
@@ -123,7 +130,9 @@
       />
     </main>
 
-    <!-- Theme controller (syncs ARIA state + persists choice) -->
+    <!-- =========================================================
+         THEME CONTROLLER: sync checkbox + icons + localStorage
+         ========================================================= -->
     <script>
       (function () {
         const KEY = "fixit_theme";
@@ -132,6 +141,8 @@
         const dayIcon = document.getElementById("dayIcon");
         const nightIcon = document.getElementById("nightIcon");
 
+        // Apply a theme: set the body class, sync switch state/ARIA,
+        // and persist the mode.
         function apply(mode) {
           const night = mode === "night";
           body.classList.remove("day-background", "night-background");
@@ -140,16 +151,12 @@
             toggle.checked = night;
             toggle.setAttribute("aria-checked", night ? "true" : "false");
           }
-          try {
-            localStorage.setItem(KEY, mode);
-          } catch {}
+          try { localStorage.setItem(KEY, mode); } catch {}
         }
 
-        // Initial (localStorage > OS)
+        // Initial mode (saved > OS)
         let saved = null;
-        try {
-          saved = localStorage.getItem(KEY);
-        } catch {}
+        try { saved = localStorage.getItem(KEY); } catch {}
         if (!saved) {
           const prefersDark =
             window.matchMedia &&
@@ -158,48 +165,40 @@
         }
         apply(saved);
 
-        // Events
-        if (toggle) {
-          toggle.addEventListener("change", () =>
-            apply(toggle.checked ? "night" : "day")
-          );
-        }
-        if (dayIcon) {
-          dayIcon.addEventListener("click", () => apply("day"));
-        }
-        if (nightIcon) {
-          nightIcon.addEventListener("click", () => apply("night"));
-        }
+        // Wire up events: switch + sun + moon
+        toggle?.addEventListener("change", () =>
+          apply(toggle.checked ? "night" : "day")
+        );
+        dayIcon?.addEventListener("click", () => apply("day"));
+        nightIcon?.addEventListener("click", () => apply("night"));
       })();
     </script>
 
-    <!-- white text for the homepage if its in dark mode -->
+    <!-- =========================================================
+         HERO LEGIBILITY HELPER: force white text on dark theme
+         (no style changes—just ensures readable hero text)
+         ========================================================= -->
     <script>
-(function () {
-  const BODY = document.body;
-  const SEL = '.hero h1, .hero h2, .hero p, .hero .lead';
+      (function () {
+        const BODY = document.body;
+        const SEL = '.hero h1, .hero h2, .hero p, .hero .lead';
 
-  function paintHeroText() {
-    const dark = BODY.classList.contains('night-background');
-    document.querySelectorAll(SEL).forEach(el => {
-      el.style.setProperty('color', dark ? '#ffffff' : '#25463D', 'important');
-      el.style.setProperty('text-shadow', dark ? '0 2px 6px rgba(0,0,0,.35)' : 'none', 'important');
-    });
-  }
+        function paintHeroText() {
+          const dark = BODY.classList.contains('night-background');
+          document.querySelectorAll(SEL).forEach(el => {
+            // Ensure hero text contrasts with dark background
+            el.style.setProperty('color', dark ? '#ffffff' : '#25463D', 'important');
+            el.style.setProperty('text-shadow', dark ? '0 2px 6px rgba(0,0,0,.35)' : 'none', 'important');
+          });
+        }
 
-  // Run now
-  paintHeroText();
-
-  // Re-run when the toggle changes
-  document.getElementById('cb1')?.addEventListener('change', paintHeroText);
-
-  // Re-run if some other code flips the body class
-  new MutationObserver(paintHeroText).observe(BODY, { attributes: true, attributeFilter: ['class'] });
-
-  // Re-run if theme changes via localStorage from another tab/page
-  window.addEventListener('storage', paintHeroText);
-})();
-</script>
-
+        paintHeroText();                                                    // run now
+        document.getElementById('cb1')?.addEventListener('change', paintHeroText);
+        new MutationObserver(paintHeroText).observe(BODY, {                 // run if body class changes
+          attributes: true, attributeFilter: ['class']
+        });
+        window.addEventListener('storage', paintHeroText);                  // run if theme is changed in another tab
+      })();
+    </script>
   </body>
 </html>

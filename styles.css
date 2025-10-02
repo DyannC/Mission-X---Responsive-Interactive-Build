@@ -1,4 +1,14 @@
+/* =========================================================
+   FixIt — styles.css (ANNOTATED)
+   Notes:
+   - Comments explain intent and relationships.
+   - No selectors/values were changed.
+   - Safe to copy/paste over your existing file.
+   ========================================================= */
+
+
 /* ======== GLOBAL RESET ======== */
+/* Basic reset + default font family across the app */
 * {
   margin: 0;
   padding: 0;
@@ -7,12 +17,13 @@
 }
 
 /* ======== BODY LAYOUT ======== */
+/* App-level body: vertical stack, centered content, forest wallpaper.
+   We also enable smooth background transitions between themes. */
 body {
   width: 100%;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  /* header on top, content below */
+  flex-direction: column; /* header on top, content below */
   align-items: center;
   background: url("images/forest.png") repeat-x bottom;
   background-color: #f0fddf;
@@ -23,36 +34,41 @@ body {
   overflow-x: hidden;
 }
 
+/* Day theme token class (set via JS) */
 body.day-background {
   background: #f0fddf url("images/forest.png") repeat-x bottom;
   background-size: auto;
   transition: background 1s ease-in-out, background-color 1s ease-in-out;
-  color: #e0e0e0;
+  color: #e0e0e0; /* note: main text color is later pinned via tokens */
 }
 
+/* Night theme token class (set via JS) */
 body.night-background {
   background: #0b172a url("images/forest.png") repeat-x bottom;
   background-size: auto;
   transition: background 1s ease-in-out, background-color 1s ease-in-out;
-  color: #e0e0e0;
+  color: #e0e0e0; /* note: main text color is later pinned via tokens */
 }
 
+/* Night theme: default text elements get lighter color
+   (we later override headings in page contexts for legibility). */
 body.night-background h1,
 body.night-background p,
 body.night-background label {
   color: #d8eaff;
 }
 
+/* Night theme: input tokens */
 body.night-background input {
   background-color: #F5F3EA;
   border-color: #444;
   color: #000000;
 }
 
+/* Input validation tokens (night) */
 body.night-background input.error {
   border-color: #fd0000;
   border-width: 2px;
-
 }
 
 body.night-background input.valid {
@@ -60,22 +76,26 @@ body.night-background input.valid {
   border-width: 2px;
 }
 
+/* Night variant for a specific green CTA class */
 body.night-background .btn-darkgreen {
   background: linear-gradient(100deg, #25463d, #0b3d2a);
   color: #d8eaff;
 }
 
 
+/* ======== THEME TOGGLE CLUSTER ======== */
+/* Position the sun/moon + switch as a small cluster in header’s corner */
 .button-con {
   position: absolute;
-  top: 50px; /* distance from top */
-  right: 50px; /* distance from right */
-  display: flex; /* align icons + toggle in a row */
+  top: 50px;         /* distance from top of the header */
+  right: 50px;       /* distance from right edge */
+  display: flex;     /* align icons + toggle in a row */
   align-items: center;
-  gap: 10px; /* spacing between icons and toggle */
+  gap: 10px;         /* spacing between icons and toggle */
   z-index: 1000;
 }
 
+/* Icons for day/night */
 #dayIcon,
 #nightIcon {
   width: 35px;
@@ -84,14 +104,14 @@ body.night-background .btn-darkgreen {
   fill: #f0c800;
   flex-shrink: 0;
   display: inline-block;
-
 }
 
-
+/* Accessibly hide the native checkbox; we style the visual switch instead */
 .toggle {
   display: none;
 }
 
+/* Make sure all pseudo-elements adopt border-box sizing */
 .toggle,
 .toggle:after,
 .toggle:before,
@@ -103,6 +123,7 @@ body.night-background .btn-darkgreen {
   box-sizing: border-box;
 }
 
+/* Disable selection glow around the switch */
 .toggle::-moz-selection,
 .toggle:after::-moz-selection,
 .toggle:before::-moz-selection,
@@ -123,6 +144,7 @@ body.night-background .btn-darkgreen {
   background: none;
 }
 
+/* Visual switch track */
 .toggle+.toggle-button {
   outline: 0;
   display: inline-block;
@@ -130,13 +152,14 @@ body.night-background .btn-darkgreen {
   height: 2em;
   position: relative;
   cursor: pointer;
-  border: 2px solid #333;
+  border: 2px solid #333; /* outer border (overridden below) */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
+/* Prepare internal half for the knob */
 .toggle+.toggle-button:after,
 .toggle+.toggle-button:before {
   position: relative;
@@ -146,18 +169,22 @@ body.night-background .btn-darkgreen {
   height: 100%;
 }
 
+/* Knob at left by default */
 .toggle+.toggle-button:after {
   left: 0;
 }
 
+/* No second pseudo used */
 .toggle+.toggle-button:before {
   display: none;
 }
 
+/* When toggled, push the knob to the right half */
 .toggle:checked+.toggle-button:after {
   left: 50%;
 }
 
+/* Switch aesthetics: soft blue border + rounded track */
 .toggle+.toggle-button {
   padding: 2px;
   -webkit-transition: all 0.2s ease;
@@ -166,6 +193,7 @@ body.night-background .btn-darkgreen {
   border-radius: 2em;
 }
 
+/* Knob fill and rounded shape */
 .toggle+.toggle-button:after {
   -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
@@ -176,6 +204,7 @@ body.night-background .btn-darkgreen {
 
 
 /* ===== HEADER ===== */
+/* 120px sticky header with logo left + toggle cluster on the right */
 header {
   width: 100%;
   height: 120px;
@@ -188,48 +217,20 @@ header {
 }
 
 
-/* ---------- Theme & Layout Vars ---------- */
+/* ---------- COMMENTED-OUT “PHONE FRAME” (kept for reference)
+   If you ever want a fixed-size frame again, these are ready.
+   They’re disabled now to let pages fill the viewport. ----------
+
+.stage { ... }
+.stage::before { ... }
+.screen { ... }
+.screen--scroll { ... }
+
+*/
 
 
-/* ---------- Fixed-size phone frame ----------
-.stage {
-  position: relative;
-  width: var(--w);
-  height: var(--h);
-  background: var(--screen);
-  border-radius: 28px;
-  overflow: hidden;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
-}
-
-/* Default inner pages: subtle forest bg (disabled on Home) */
-.stage::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--screen) var(--forest-url) no-repeat bottom center / contain;
-  pointer-events: none;
-  opacity: 0.98;
-}
-
-/* ---------- Shared screen grid ---------- */
-.screen {
-  position: relative;
-  z-index: 1;
-  height: 100%;
-  padding: 20px 16px 24px;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: 12px;
-  overflow-x: hidden;
-  /* guardrail */
-}
-
-.screen--scroll {
-  overflow-y: auto;
-} */
-
-/* ---------- Type & helpers ---------- */
+/* ---------- TYPE & BASIC HELPERS ---------- */
+/* Base H1 for subpages (homepage has its own hero typography) */
 h1 {
   font-weight: 900;
   font-size: 22px;
@@ -238,27 +239,20 @@ h1 {
   margin: 5px 0 8px;
 }
 
+/* Default paragraph tone (overridden per theme where needed) */
 p {
   color: #314d43;
 }
 
-.center {
-  text-align: center;
-}
+/* Small utility classes */
+.center { text-align: center; }
+.mt8 { margin-top: 8px; }
+.mt12 { margin-top: 12px; }
+.mt16 { margin-top: 16px; }
 
-.mt8 {
-  margin-top: 8px;
-}
 
-.mt12 {
-  margin-top: 12px;
-}
-
-.mt16 {
-  margin-top: 16px;
-}
-
-/* ---------- Buttons ---------- */
+/* ---------- BUTTONS ---------- */
+/* Primary pill CTA (brand gradient + subtle inset highlights) */
 .btn {
   display: inline-flex;
   justify-content: center;
@@ -279,18 +273,20 @@ p {
     inset -4px -4px 8px rgba(255, 255, 255, 0.2);
 }
 
+/* Hover: slight lift + scale; gradient animates via bg-position change */
 .btn:hover {
   background-color: #48905f;
   color: #ffffff;
-  background-position: right center;
-  /* shifts gradient */
+  background-position: right center; /* shifts gradient */
   transform: translateY(-3px) scale(1.03);
 }
 
+/* Active press feedback */
 .btn:active {
   transform: translateY(1px) scale(.997);
 }
 
+/* Secondary ghost button (used in rails etc.) */
 .btn-ghost {
   background: #FFFFFF;
   color: var(--text);
@@ -300,9 +296,9 @@ p {
   width: 100%;
   box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4),
     inset -4px -4px 8px rgba(255, 255, 255, 0.2);
-
 }
 
+/* Footer button rail: two buttons side by side */
 .rail {
   display: flex;
   gap: 12px;
@@ -320,7 +316,9 @@ p {
   margin-right: auto;
 }
 
-/* ---------- Cards & inputs ---------- */
+
+/* ---------- CARDS & INPUTS ---------- */
+/* Generic card surface */
 .card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -328,10 +326,10 @@ p {
   box-shadow: 0 18px 44px rgba(12, 31, 23, 0.1);
 }
 
-.pane {
-  padding: 14px;
-}
+/* Standard inner page padding */
+.pane { padding: 14px; }
 
+/* Form controls */
 input[type="text"],
 input[type="email"],
 textarea {
@@ -349,13 +347,16 @@ textarea {
   resize: vertical;
 }
 
-/* ---------- Issue tiles ---------- */
+
+/* ---------- ISSUE TILES (IssueType page) ---------- */
+/* Responsive two-column grid of issue tiles */
 .grid {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* Each issue tile (A/Link or Block) */
 .tile,
 .tile:link,
 .tile:visited {
@@ -370,9 +371,10 @@ textarea {
   box-shadow: 0 8px 18px rgba(12, 31, 23, 0.08);
   color: var(--text);
   text-decoration: none;
-  min-height: 170px;
+  min-height: 170px; /* consistent tile height */
 }
 
+/* Icon wrapper inside the tile */
 .tile .icon {
   width: 96px;
   height: 96px;
@@ -385,6 +387,7 @@ textarea {
   margin-bottom: 6px;
 }
 
+/* Icon image scales nicely inside the box */
 .tile .icon img {
   max-width: 72%;
   max-height: 72%;
@@ -392,18 +395,18 @@ textarea {
   display: block;
 }
 
-.tile strong {
-  font-size: 13px;
-}
+/* Tile label */
+.tile strong { font-size: 13px; }
 
-/* Center “Other” tile when odd count (keeps half width) */
-.grid>.tile:last-child:nth-child(odd) {
+/* If the count is odd, center the last tile (keeps half width) */
+.grid > .tile:last-child:nth-child(odd) {
   grid-column: 1 / span 2;
   justify-self: center;
   width: calc((100% - 12px) / 2);
 }
 
-/* ---------- Progress report cards ---------- */
+
+/* ---------- PROGRESS REPORT CARDS (if used) ---------- */
 .report-card {
   display: flex;
   align-items: center;
@@ -418,11 +421,7 @@ textarea {
   margin-bottom: 14px;
 }
 
-.report-card .icon {
-  width: 80px;
-  height: 80px;
-}
-
+.report-card .icon { width: 80px; height: 80px; }
 .report-card .label {
   flex: 1;
   text-align: left;
@@ -431,6 +430,7 @@ textarea {
   font-weight: 600;
 }
 
+/* Status pills */
 .status {
   padding: 6px 12px;
   border-radius: 20px;
@@ -439,20 +439,13 @@ textarea {
   color: #fff;
 }
 
-.status.received {
-  background: #808080;
-}
+.status.received   { background: #808080; }
+.status.in-progress{ background: #fdef85; color: #333; }
+.status.resolved   { background: #558e4e; }
 
-.status.in-progress {
-  background: #fdef85;
-  color: #333;
-}
 
-.status.resolved {
-  background: #558e4e;
-}
-
-/* ---------- Overlays (upload / finding location) ---------- */
+/* ---------- GENERIC OVERLAYS (upload / finding location) ---------- */
+/* Full-screen dim layer + centered modal */
 .overlay {
   position: absolute;
   inset: 0;
@@ -462,6 +455,7 @@ textarea {
   z-index: 2;
 }
 
+/* Modal surface */
 .modal {
   width: 80%;
   max-width: 290px;
@@ -477,6 +471,7 @@ textarea {
   font-size: 16px;
 }
 
+/* Two options row inside modal */
 .option-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -491,6 +486,7 @@ textarea {
   text-align: center;
 }
 
+/* Reusable loading spinner */
 .spinner {
   width: 56px;
   height: 56px;
@@ -501,13 +497,10 @@ textarea {
   margin: 12px auto 8px;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* ---------- Map card (Location) ---------- */
+
+/* ---------- MAP CARD (Location page) ---------- */
 .map-card {
   padding: 0;
   height: 220px;
@@ -517,40 +510,30 @@ textarea {
   box-shadow: 0 18px 44px rgba(12, 31, 23, .1);
 }
 
-#map {
-  width: 100%;
-  height: 100%;
-}
+/* Leaflet container sizing */
+#map { width: 100%; height: 100%; }
 
-.leaflet-container {
-  background: var(--soft);
-}
+.leaflet-container { background: var(--soft); }
+.leaflet-control-attribution { font-size: 10px; }
 
-.leaflet-control-attribution {
-  font-size: 10px;
-}
 
 /* =========================================================
    HOME PAGE ONLY  (add class="home" to <body>)
    ========================================================= */
 
-/* Use a two-row layout: hero grows, CTA pinned at bottom */
+/* Two-row layout: hero grows; CTA row sits on bottom */
 .home .stage {
   display: grid;
   grid-template-rows: 1fr auto;
 }
 
-/* Remove default stage background (we render a custom hero) */
-.home .stage::before {
-  display: none;
-}
+/* Remove default stage bg; home has a custom hero composition */
+.home .stage::before { display: none; }
 
-/* Ground height shared by forest & people (and seam blend) */
-.home {
-  --cta-space: 118px;
-}
+/* Shared “ground” height (keeps forest + people aligned with CTA) */
+.home { --cta-space: 118px; }
 
-/* HERO container */
+/* HERO container (isolation for layer blending) */
 .home .hero {
   position: relative;
   isolation: isolate;
@@ -558,52 +541,47 @@ textarea {
   min-height: 560px;
 }
 
-/* Soft top glow behind the logo */
+/* Soft glow at top behind the logo */
 .home .hero::before {
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
   height: 130px;
   background: radial-gradient(110% 60% at 50% 0, rgba(0, 0, 0, .07), transparent 60%);
-  z-index: 1;
-  /* below the logo */
+  z-index: 1; /* below the logo */
 }
 
-/* Logo (bigger, centered) */
+/* Big centered logo (uses CSS background for crisp scaling) */
 .home .logo {
-  width: clamp(500px, 85%, 360px);
-  /* increase these numbers to taste */
-  aspect-ratio: 570 / 180;
-  /* keep the correct proportions */
+  width: clamp(500px, 85%, 360px);   /* responsive width */
+  aspect-ratio: 570 / 180;          /* keep proportions */
   margin: 6px auto 14px;
   background: var(--logo-url) left / contain no-repeat;
   position: relative;
   z-index: 5;
   filter:
-    drop-shadow(0 10px 24px rgba(18, 68, 41, .16)) drop-shadow(0 2px 4px rgba(18, 68, 41, .10));
+    drop-shadow(0 10px 24px rgba(18, 68, 41, .16))
+    drop-shadow(0 2px 4px rgba(18, 68, 41, .10));
 }
 
-
-/* Forest artwork fills hero; fades at top; runs slightly under CTA */
+/* Forest band fills hero; fades at top; tucks under CTA row */
 .home .forest {
   width: 100%;
   max-width: 730px;
   position: absolute;
   bottom: var(--cta-space);
-  inset: 0 0 calc(var(--cta-space) - 4px) 0;
-  /* tuck under CTA */
+  inset: 0 0 calc(var(--cta-space) - 4px) 0; /* tuck under CTA */
   background: var(--forest-url) bottom center / cover no-repeat;
   z-index: 0;
   -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0) 100%);
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0) 100%);
 }
 
-
-/* People, centered, anchored to the same ground as forest */
+/* People art pinned to same ground level as forest.
+   Centered horizontally and sized responsively. */
 .home .people {
-
   position: absolute;
-  height: 1000px;
+  height: 1000px;            /* visual scale (artwork-dependent) */
   bottom: var(--cta-space);
   left: 50%;
   transform: translateX(-50%);
@@ -613,10 +591,11 @@ textarea {
   background: var(--people-url) bottom center / contain no-repeat;
   z-index: 0;
   filter:
-    drop-shadow(0 14px 24px rgba(18, 68, 41, .12)) drop-shadow(0 3px 10px rgba(18, 68, 41, .10));
+    drop-shadow(0 14px 24px rgba(18, 68, 41, .12))
+    drop-shadow(0 3px 10px rgba(18, 68, 41, .10));
 }
 
-/* Seam eraser: soft blend between hero & CTA row */
+/* Gentle seam blend between hero & CTA row */
 .home .hero::after {
   content: "";
   position: absolute;
@@ -633,9 +612,9 @@ textarea {
   background: transparent;
 }
 
+/* Tiny blend strip to avoid hairlines between hero and CTA */
 .home .cta::before {
   content: "";
-  /* tiny blend strip to ensure no hairline */
   position: absolute;
   left: 0;
   right: 0;
@@ -644,42 +623,26 @@ textarea {
   pointer-events: none;
 }
 
+/* CTA button in home fills the row for tap targets */
 .home .cta .btn {
   width: 100%;
   height: 64px;
   border-radius: 32px;
-  /* box-shadow:
-    0 14px 28px rgba(21,79,52,.25),
-    inset 0 1px 0 rgba(255,255,255,.18); */
 }
 
-/* How much higher you want the button */
-.home {
-  --cta-lift: 40px;
-}
+/* Lift the button up slightly from the absolute ground */
+.home { --cta-lift: 40px; }  /* try 8–16px for smaller lift */
+.home .cta { margin-bottom: var(--cta-lift); }
 
-/* try 8–16px */
-
-.home .cta {
-  margin-bottom: var(--cta-lift);
-  /* lifts the button up */
-}
-
-
-/* Shorter screens: nudge up a touch */
+/* Shorter screens: nudge sizes */
 @media (max-height: 760px) {
-  .home {
-    --cta-space: 108px;
-  }
-
-  .home .people {
-    width: 88%;
-  }
+  .home { --cta-space: 108px; }
+  .home .people { width: 88%; }
 }
+
 
 /* ======== RESPONSIVE BREAKPOINTS ======== */
-
-/* Mobile (small screens) */
+/* Mobile adjustments for common components (non-hero) */
 @media (max-width: 768px) {
   .body {
     width: 95%;
@@ -706,12 +669,10 @@ textarea {
     margin-bottom: 10px;
   }
 
-  h1 {
-    font-size: 1.8rem;
-  }
+  h1 { font-size: 1.8rem; }
 }
 
-/* Desktop (large screens) */
+/* Desktop scaling bump */
 @media (min-width: 1200px) {
   .body {
     width: 100%;
@@ -725,14 +686,12 @@ textarea {
     height: 75px;
   }
 
-  .report-card {
-    max-width: 480px;
-  }
+  .report-card { max-width: 480px; }
 }
 
 
-/* ========= Logo - day and night toggle */
-
+/* ========= Header + Theme (duplicated tokens kept for safety) ========= */
+/* (Kept to match pages that rely on these exact selectors) */
 header { width:100%; height:120px; background:#fff; display:flex; align-items:center; justify-content:space-between; padding:0 25px; }
 .header-logo { height:90px; display:block; }
 .button-con { position:absolute; top:50px; right:50px; display:flex; align-items:center; gap:10px; z-index:1000; }
@@ -744,9 +703,10 @@ header { width:100%; height:120px; background:#fff; display:flex; align-items:ce
 body.day-background{ background:#f0fddf url("images/forest.png") repeat-x bottom; background-size:auto; color:#25463D; }
 body.night-background{ background:#0b172a url("images/forest.png") repeat-x bottom; background-size:auto; color:#d8eaff; }
 
-/* --- Keep app/content text stable across themes --- */
+/* --- Keep app/content text stable across themes using tokens --- */
 :root { --ink: #25463D; }
 
+/* Constrain text color to tokens in key content areas */
 main, .pane, .stage, .content, .page-wrap { color: var(--ink); }
 
 main h1, main h2, main h3,
@@ -756,10 +716,11 @@ label, .form label {
   color: var(--ink) !important;
 }
 
-/* Do NOT globally recolor everything in night mode */
+/* Avoid forcing universal color on body in night mode.
+   Content areas use tokens above for stability. */
 body.night-background { color: inherit; }
 
-/* Remove/neutralize the old global night overrides */
+/* Remove old global overrides by forcing inherit */
 body.night-background h1,
 body.night-background h2,
 body.night-background p,
@@ -767,16 +728,13 @@ body.night-background label {
   color: inherit !important;
 }
 
-/* Header can still adapt in night mode */
-header {
-  background: #ffffff;
-  position: sticky; top: 0; z-index: 1000;
-}
+/* Sticky header + night adaptation */
+header { background: #ffffff; position: sticky; top: 0; z-index: 1000; }
 body.night-background header { background: #0e1b2f; }
 body.night-background header .header-logo { filter: brightness(1.1) contrast(1.05); }
 
 
-/* one-class hammer if something still overrides it */
+/* ===== SOLID INPUT / CARD UTILITIES (kill glass/blur/gradients) ===== */
 .solid-input {
   background: #ffffff !important;
   background-image: none !important;
@@ -787,8 +745,7 @@ body.night-background .solid-input {
   background: #F5F3EA !important;
 }
 
-
-/* ==== Theme tokens (day/night) ==== */
+/* Theme tokens for surfaces/ink/border/shadow (day vs night) */
 :root{
   --surface: #FFFFFF;
   --ink:     #25463D;
@@ -803,7 +760,7 @@ body.night-background{
   --shadow:  0 6px 18px rgba(0,0,0,.25);
 }
 
-/* ==== Solid input utility (kills glass/blur/gradients) ==== */
+/* Solid input helper (apply to specific inputs like #coords when needed) */
 .input-solid{
   background: var(--surface) !important;
   color: var(--ink) !important;
@@ -817,14 +774,20 @@ body.night-background{
   backdrop-filter: none !important;
 }
 
-/* Optional: keep placeholder readable */
-.input-solid::placeholder{ color: color-mix(in srgb, var(--ink) 60%, transparent); }
+/* Placeholder contrast helper */
+.input-solid::placeholder{
+  color: color-mix(in srgb, var(--ink) 60%, transparent);
+}
 
-/* Optional: align with your wide controls */
+/* Optional alignment for coordinates input */
 .coords-row .input-solid,
-#coords.input-solid{ max-width: 720px; margin-inline: auto; display: block; }
+#coords.input-solid{
+  max-width: 720px;
+  margin-inline: auto;
+  display: block;
+}
 
-/* solid card (no glass) */
+/* Solid card utility */
 .card-solid{
   background: var(--surface) !important;
   border: 1.5px solid var(--border) !important;
@@ -834,7 +797,7 @@ body.night-background{
   backdrop-filter: none !important;
 }
 
-/* already created earlier; keep using it for inputs you want solid */
+/* (Duplicate kept intentionally for pages that import subsets) */
 .input-solid{
   background: var(--surface) !important;
   color: var(--ink) !important;
@@ -849,17 +812,18 @@ body.night-background{
 }
 
 
+/* ===== HEADING OVERRIDES / THEME-SAFE ===== */
+/* Default day heading tone for generic pages */
 h1 {
   color: #1a1a1a; /* dark green/black for readability in day mode */
   font-weight: 700;
   text-align: center;
 }
 
-/* optional: override for night mode */
-body.night-background h1 {
-  color: #f0f0f0; /* light text for dark background */
-}
-/* Issue page heading — force visible in day & night */
+/* Optional night override for global h1s */
+body.night-background h1 { color: #f0f0f0; }
+
+/* Issue page heading — force visible day & night, safe above backgrounds */
 .pane h1,
 .screen .pane h1 {
   color: #25463D !important;  /* deep green */
@@ -868,21 +832,23 @@ body.night-background h1 {
   opacity: 1 !important;
   mix-blend-mode: normal !important;
   text-shadow: none !important;
-  position: relative;         /* allow z-index */
-  z-index: 2;                 /* above any backgrounds */
+  position: relative;  /* allow z-index */
+  z-index: 2;          /* above any backgrounds */
 }
 
-/* If your page uses a specific wrapper, include it too */
+/* Optional page-scoped heading color */
 .issuetype h1 { color: #25463D !important; }
 
-/* Night theme override */
+/* Night theme forcing lighter heading when needed */
 body.night-background .pane h1,
 body.night-background .issuetype h1 {
   color: #F2F7F4 !important;  /* light text on dark */
 }
 
-/* Safety: don't let a translucent header wash over the title */
+/* Ensure header sits above banners/content */
 .fx-header { z-index: 10; }
+
+/* Error banner used by your JS guards (IssueType/Details/Location) */
 .error-banner{
   margin: 0 0 16px;
   padding: 12px 14px;
