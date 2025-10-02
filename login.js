@@ -87,49 +87,38 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --------- DARK MODE TOGGLE ---------
-  const toggle = document.getElementById("cb1");
-  const body = document.body;
-  const dayIcon = document.getElementById("dayIcon");
-  const nightIcon = document.getElementById("nightIcon");
+  /// --------------------
+  // DARK MODE TOGGLE (Persistent Across Pages)
+  // --------------------
+    const toggle = document.getElementById("cb1");
+    const body = document.body;
 
-   // 🧠 Load the saved theme (persists across pages)
-  const savedMode = localStorage.getItem("themeMode");
-
-  if (savedMode === "night") {
-    body.classList.add("night-background");
-    toggle.checked = true;
-    dayIcon.style.display = "none";
-    nightIcon.style.display = "inline-block";
-  } else {
-    body.classList.add("day-background");
-    toggle.checked = false;
-    dayIcon.style.display = "inline-block";
-    nightIcon.style.display = "none";
-  }
-
-  // 🌓 Save theme when user toggles
-  toggle.addEventListener("change", () => {
-    if (toggle.checked) {
-      body.classList.remove("day-background");
+    const savedMode = localStorage.getItem("themeMode");
+    if (savedMode === "night") {
       body.classList.add("night-background");
-      dayIcon.style.display = "none";
-      nightIcon.style.display = "inline-block";
-      localStorage.setItem("themeMode", "night"); // 💾 remember
+      toggle.checked = true;
     } else {
-      body.classList.remove("night-background");
       body.classList.add("day-background");
-      nightIcon.style.display = "none";
-      dayIcon.style.display = "inline-block";
-      localStorage.setItem("themeMode", "day"); // 💾 remember
     }
+
+    toggle.addEventListener("change", () => {
+      if (toggle.checked) {
+        body.classList.remove("day-background");
+        body.classList.add("night-background");
+        localStorage.setItem("themeMode", "night");
+      } else {
+        body.classList.remove("night-background");
+        body.classList.add("day-background");
+        localStorage.setItem("themeMode", "day");
+      }
+    });
   });
-});
 
 
-// --------- REFEENCE NUMBER (CONFIRMATION PAGE) ---------
 
-const refNumberEl = document.getElementById("refNumber");
+  // --------- REFEENCE NUMBER (CONFIRMATION PAGE) ---------
+
+  const refNumberEl = document.getElementById("refNumber");
   const copyRefBtn = document.getElementById("copyRefBtn");
 
   // Generate random reference number (e.g. REF-384726)

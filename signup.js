@@ -129,45 +129,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// --------------------
+/// --------------------
 // DARK MODE TOGGLE (Persistent Across Pages)
 // --------------------
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("cb1");
   const body = document.body;
-  const dayIcon = document.getElementById("dayIcon");
-  const nightIcon = document.getElementById("nightIcon");
 
-  if (!toggle || !dayIcon || !nightIcon) return;
-
-  // 🧠 Load the saved theme
   const savedMode = localStorage.getItem("themeMode");
-
   if (savedMode === "night") {
     body.classList.add("night-background");
     toggle.checked = true;
-    dayIcon.style.display = "none";
-    nightIcon.style.display = "inline-block";
   } else {
     body.classList.add("day-background");
-    toggle.checked = false;
-    dayIcon.style.display = "inline-block";
-    nightIcon.style.display = "none";
   }
 
-  // 🌓 Save and switch themes
   toggle.addEventListener("change", () => {
     if (toggle.checked) {
       body.classList.remove("day-background");
       body.classList.add("night-background");
-      dayIcon.style.display = "none";
-      nightIcon.style.display = "inline-block";
       localStorage.setItem("themeMode", "night");
     } else {
       body.classList.remove("night-background");
       body.classList.add("day-background");
-      nightIcon.style.display = "none";
-      dayIcon.style.display = "inline-block";
       localStorage.setItem("themeMode", "day");
     }
   });

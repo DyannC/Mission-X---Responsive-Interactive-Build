@@ -66,33 +66,15 @@ body.night-background .btn-darkgreen {
 }
 
 /* ======== DARK MODE TOGGLE ======== */
-
-.button-con {
-  position: absolute;
-  top: 50px; /* distance from top */
-  right: 50px; /* distance from right */
-  display: flex; /* align icons + toggle in a row */
-  align-items: center;
-  gap: 10px; /* spacing between icons and toggle */
-  z-index: 1000;
-}
-
+.button-con { position:absolute; top:50px; right:50px; display:flex; align-items:center; gap:10px; z-index:1000; }
+.toggle { display:none; }
+.toggle+.toggle-button { width:4em; height:2em; padding:2px; border:2px solid rgba(0,125,249,.27); border-radius:2em; cursor:pointer; display:inline-block; }
+.toggle+.toggle-button:after { content:""; display:block; width:50%; height:100%; background:rgba(0,128,255,.27); border-radius:1em; transition:all .2s ease; }
+.toggle:checked+.toggle-button:after { left:50%; position:relative; }
 #dayIcon,#nightIcon{ width:35px; height:35px; cursor:pointer; fill:#f0c800; flex-shrink:0; display:inline-block; }
 .toggle{ display:none; }
 
-/* Simple switch styling (like your teammate’s) */
-.toggle+.toggle-button{
-  outline:0;
-  display:inline-block;
-  width:4em; height:2em; position:relative; cursor:pointer;
-  padding:2px; border:2px solid rgba(0,125,249,.27); border-radius:2em;
-  transition:all .2s ease;
-}
-.toggle+.toggle-button:after{
-  content:""; display:block; width:50%; height:100%; border-radius:1em;
-  background: rgba(0,128,255,.27); transition:all .2s ease; position:relative; left:0;
-}
-.toggle:checked+.toggle-button:after{ left:50%; }
+
 
 /* Header can still adapt in night mode */
 header {
