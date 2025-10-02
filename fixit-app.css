@@ -163,6 +163,7 @@ p {
   margin-bottom: 30px;
   border-radius: 20px;
   border: 2px solid #f5f3e9;
+  transition: border-color 0.3s, background-color 0.3s;
   font-size: 1.2rem;
   background-color: #f5f3ea;
   box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.2),
@@ -185,17 +186,23 @@ input.valid {
 }
 
 /* ======== ERROR MESSAGES ======== */
+
 .error-message {
   color: #FD0000;
   font-size: 14px;
   text-align: center;
-  margin: 2px 0 6px 2px;
-  display: none;
+  margin: 1px 0 5px 0;
+  /* Smooth show/hide */
+  height: 18px;       /* reserve space for 1 line of text */
+  opacity: 0;         /* invisible by default */
+  transition: opacity 0.3s ease;
+  overflow: hidden;   /* prevent content overflow */
 }
 
 .error-message.active {
-  display: block;
+  opacity: 1;         /* fade in smoothly */
 }
+
 
 /* ======== BUTTONS ======== */
 .btn {
